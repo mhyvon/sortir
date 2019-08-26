@@ -40,6 +40,8 @@ node_modules
 # Build data
 /build/
 
+/var/log/*
+
 # Composer PHAR
 /composer.phar
 
@@ -50,7 +52,7 @@ node_modules
 /.web-server-pid
 
 ###> symfony/web-server-bundle ###
-/.web-server-pid
+ #/.web-server-pid
 ###< symfony/web-server-bundle ###
 
 ###> symfony/webpack-encore-bundle ###
