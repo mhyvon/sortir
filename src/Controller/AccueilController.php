@@ -11,7 +11,7 @@ class AccueilController extends Controller
      *@Route("accueil", name ="accueil")
      */
     public function accueil(){
-        $hello = "";
+        $hello = "world";
         return $this->render("twig/accueil.html.twig");
     }
 
