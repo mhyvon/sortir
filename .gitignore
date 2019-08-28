@@ -10,8 +10,9 @@
 # Cache, session files and logs (Symfony3)
 /var/cache/*
 /var/log/*
-/var/logs/*
-/var/log/*
+#/var/logs/*
+#/var/log/*
+
 /var/sessions/*
 !var/cache/.gitkeep
 !var/logs/.gitkeep
@@ -64,3 +65,4 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 /.idea
+
