@@ -16,7 +16,7 @@ class Participant extends FosUser
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     public function getId(): ?int
     {
@@ -27,4 +27,8 @@ class Participant extends FosUser
     {
         parent::__construct();
     }
+
+
 }
+
+
