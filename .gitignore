@@ -4,14 +4,8 @@
 # Cache, session files and logs (Symfony3)
 /var/cache/*
 /var/log/*
-/var/log/**
-#/var/logs/*
-#/var/log/*
-
+/var/logs/*
 /var/sessions/*
-#!var/cache/.gitkeep
-#!var/logs/.gitkeep
-!var/sessions/.gitkeep
 
 # Parameters
 /app/config/parameters.yml
