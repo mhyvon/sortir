@@ -23,9 +23,14 @@ class SortieController extends Controller
      */
     public function index(SortieRepository $sortieRepository): Response
     {
-        $this->maj($sortieRepository);
+        $liste = $sortieRepository->findAll();
+
+        foreach ($liste as $sortie) {
+            $this->maj($sortieRepository, $sortie);
+        };
+
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
+            'sorties' => $liste,
         ]);
     }
 
@@ -37,7 +42,7 @@ class SortieController extends Controller
         $sortie = new Sortie();
         $sortie->setOrganisateur($this->getUser());
 
-        $etat = $repository->findOneBy(['libelle'=>'Ouverte']);
+        $etat = $repository->findOneBy(['libelle'=>'Créée']);
         $sortie->setEtat($etat);
 
         $form = $this->createForm(SortieType::class, $sortie);
@@ -135,25 +140,31 @@ class SortieController extends Controller
         return $this->redirectToRoute('sortie_index');
     }
 
-    public function maj(SortieRepository $sortieRepository){
+    public function maj(SortieRepository $sortieRepository, Sortie $sortie){
 
         $em = $this->getDoctrine()->getManager();
-        $liste=$sortieRepository->findAll();
 
         $now = new \DateTime('now');
         $repo = $this->getDoctrine()->getRepository(Etat::class);
 
-        foreach($liste as $sortie){
-            $dateFin = $sortie->getDebut()->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
-            if ($now>$sortie->getDebut()&&$now<$dateFin) {
-                $etat = $repo->findOneBy(['libelle'=>'Activitée en cours']);
-                $sortie->setEtat($etat);
-            }
+        $dateFin = $sortie->getDebut();
 
-            $em->persist($sortie);
-            $em->flush();
+        $dateFin->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
+
+
+//        if ($sortie->getId()==9) {
+//            dump($now);
+//            dump($sortie->getDebut());
+//            dump($now<$dateFin);
+//            exit();
+//        }
+
+        if ($now>$sortie->getDebut()&&$now<$dateFin) {
+            $etat = $repo->findOneBy(['libelle'=>'Activitée en cours']);
+            $sortie->setEtat($etat);
         }
-
+        $em->persist($sortie);
+        $em->flush();
 
     }
 }
