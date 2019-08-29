@@ -49,6 +49,16 @@ class SortieController extends Controller
     }
 
     /**
+     * @Route("/{id}/register", name="sortie_register", methods={"GET","POST"})
+     */
+    public function addParticipant(Sortie $sortie){
+
+        $sortie->addInscription($this->getUser());
+
+        return $this->redirectToRoute('sortie_index');
+    }
+
+    /**
      * @Route("/{id}", name="sortie_show", methods={"GET"})
      */
     public function show(Sortie $sortie): Response
