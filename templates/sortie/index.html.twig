@@ -12,7 +12,7 @@
                 <th>Nom</th>
                 <th>Debut</th>
                 <th>Duree</th>
-                <th>ClotureInscriptions</th>
+                <th>Date fin d'inscription</th>
                 <th>InscriptionsMax</th>
                 <th>Description</th>
                 <th>UrlPhoto</th>
@@ -37,11 +37,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="9">Aucune sortie trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('sortie_new') }}">Create new</a>
+    <a href="{{ path('sortie_new') }}">Créer une sortie</a>
 {% endblock %}
