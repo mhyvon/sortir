@@ -34,6 +34,7 @@ class RegistrationType extends AbstractType
     {
         return 'app_user_registration';
     }
+
     public function getName()
     {
         return $this->getBlockPrefix();
