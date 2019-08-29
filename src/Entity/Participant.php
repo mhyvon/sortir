@@ -50,11 +50,6 @@ class Participant extends FosUser
     private $mail;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $mdp;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $actif;
@@ -137,18 +132,6 @@ class Participant extends FosUser
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getMdp(): ?string
-    {
-        return $this->mdp;
-    }
-
-    public function setMdp(string $mdp): self
-    {
-        $this->mdp = $mdp;
 
         return $this;
     }
