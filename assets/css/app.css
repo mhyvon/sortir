@@ -2,4 +2,29 @@
 
 body {
     background-color: lightgray;
+    margin-bottom: 100px;
 }
+
+
+
+
+/* footer */
+body {
+    height: 100%;
+}
+
+#page-content {
+    flex: 1 0 auto;
+}
+
+#sticky-footer {
+    flex-shrink: none;
+}
+
+/* Other Classes for Page Styling */
+
+body {
+    background: #007bff;
+    background: linear-gradient(to right, #b3d7ff, #e0e0e0);
+}
+/* fin footer */
