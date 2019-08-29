@@ -14,11 +14,10 @@ class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('pseudo')
+        $builder
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
-            ->add('mail')
             ->add('site', EntityType::class, [
                 'class'=>Site::class,
         ])
