@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
+ * @UniqueEntity("nom")
  */
 class Site
 {
@@ -36,5 +38,10 @@ class Site
         $this->nom = $nom;
 
         return $this;
+    }
+
+    public function __toString(): ?string
+    {
+        return $this->getNom();
     }
 }
