@@ -21,7 +21,8 @@ class RegistrationType extends AbstractType
             ->add('mail')
             ->add('site', EntityType::class, [
                 'class'=>Site::class,
-        ]);
+        ])
+            ->add('actif');
     }
 
     public function getParent()

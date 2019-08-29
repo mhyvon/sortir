@@ -24,10 +24,6 @@ class Participant extends FosUser
      */
     protected $id;
 
-    /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -43,11 +39,6 @@ class Participant extends FosUser
      * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $telephone;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $mail;
 
     /**
      * @ORM\Column(type="boolean")
@@ -76,17 +67,6 @@ class Participant extends FosUser
         $this->inscriptions = new ArrayCollection();
     }
 
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
-
-        return $this;
-    }
 
     public function getNom(): ?string
     {
@@ -120,18 +100,6 @@ class Participant extends FosUser
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): self
-    {
-        $this->mail = $mail;
 
         return $this;
     }
