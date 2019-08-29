@@ -23,9 +23,13 @@ class SortieController extends Controller
      */
     public function index(SortieRepository $sortieRepository): Response
     {
-        $this->maj($sortieRepository);
+        $liste = $sortieRepository->findAll();
+        foreach ($liste as $sortie) {
+            $this->maj($sortie);
+        };
+
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
+            'sorties' => $liste,
         ]);
     }
 
@@ -37,7 +41,7 @@ class SortieController extends Controller
         $sortie = new Sortie();
         $sortie->setOrganisateur($this->getUser());
 
-        $etat = $repository->findOneBy(['libelle'=>'Ouverte']);
+        $etat = $repository->findOneBy(['libelle'=>'Créée']);
         $sortie->setEtat($etat);
 
         $form = $this->createForm(SortieType::class, $sortie);
@@ -96,6 +100,7 @@ class SortieController extends Controller
      */
     public function show(Sortie $sortie): Response
     {
+        $this->maj($sortie);
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
         ]);
@@ -135,25 +140,26 @@ class SortieController extends Controller
         return $this->redirectToRoute('sortie_index');
     }
 
-    public function maj(SortieRepository $sortieRepository){
+    public function maj(Sortie $sortie){
 
         $em = $this->getDoctrine()->getManager();
-        $liste=$sortieRepository->findAll();
 
         $now = new \DateTime('now');
         $repo = $this->getDoctrine()->getRepository(Etat::class);
 
-        foreach($liste as $sortie){
-            $dateFin = $sortie->getDebut()->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
-            if ($now>$sortie->getDebut()&&$now<$dateFin) {
-                $etat = $repo->findOneBy(['libelle'=>'Activitée en cours']);
-                $sortie->setEtat($etat);
-            }
+        $dateFin = new \DateTime($sortie->getDebut()->format('Y-m-d H:i:s'));
 
-            $em->persist($sortie);
-            $em->flush();
+        $dateFin->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
+
+        if ($now>$sortie->getDebut()&&$now<$dateFin) {
+            $etat = $repo->findOneBy(['libelle'=>'Activité en cours']);
+            $sortie->setEtat($etat);
         }
-
-
+        if ($now>$dateFin&&$sortie->getEtat()->getLibelle()!='Annulée'){
+            $etat = $repo->findOneBy(['libelle'=>'Passée']);
+            $sortie->setEtat($etat);
+        }
+        $em->persist($sortie);
+        $em->flush();
     }
 }
