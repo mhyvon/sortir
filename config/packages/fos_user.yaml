@@ -9,3 +9,4 @@ fos_user:
   registration:
     form:
       type: App\Form\RegistrationType
+      
