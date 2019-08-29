@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,6 +23,7 @@ class SortieController extends Controller
      */
     public function index(SortieRepository $sortieRepository): Response
     {
+        $this->maj($sortieRepository);
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
         ]);
@@ -29,9 +32,14 @@ class SortieController extends Controller
     /**
      * @Route("/new", name="sortie_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EtatRepository $repository): Response
     {
         $sortie = new Sortie();
+        $sortie->setOrganisateur($this->getUser());
+
+        $etat = $repository->findOneBy(['libelle'=>'Ouverte']);
+        $sortie->setEtat($etat);
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -125,5 +133,27 @@ class SortieController extends Controller
         }
 
         return $this->redirectToRoute('sortie_index');
+    }
+
+    public function maj(SortieRepository $sortieRepository){
+
+        $em = $this->getDoctrine()->getManager();
+        $liste=$sortieRepository->findAll();
+
+        $now = new \DateTime('now');
+        $repo = $this->getDoctrine()->getRepository(Etat::class);
+
+        foreach($liste as $sortie){
+            $dateFin = $sortie->getDebut()->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
+            if ($now>$sortie->getDebut()&&$now<$dateFin) {
+                $etat = $repo->findOneBy(['libelle'=>'Activitée en cours']);
+                $sortie->setEtat($etat);
+            }
+
+            $em->persist($sortie);
+            $em->flush();
+        }
+
+
     }
 }

@@ -20,9 +20,6 @@ class SortieType extends AbstractType
             ->add('inscriptionsMax')
             ->add('description')
             ->add('urlPhoto')
-            ->add('organisateur')
-            ->add('etat')
-            ->add('inscriptions')
             ->add('lieu')
             ->add('submit', SubmitType::class)
         ;
