@@ -11,9 +11,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ParticipantRepository")
- * @UniqueEntity("pseudo")
- * @UniqueEntity("mail")
- *
  */
 class Participant extends FosUser
 {
