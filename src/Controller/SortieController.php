@@ -147,20 +147,12 @@ class SortieController extends Controller
         $now = new \DateTime('now');
         $repo = $this->getDoctrine()->getRepository(Etat::class);
 
-        $dateFin = $sortie->getDebut();
+        $dateFin = new \DateTime($sortie->getDebut()->format('Y-m-d H:i:s'));
 
         $dateFin->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
-
-
-//        if ($sortie->getId()==9) {
-//            dump($now);
-//            dump($sortie->getDebut());
-//            dump($now<$dateFin);
-//            exit();
-//        }
-
+        
         if ($now>$sortie->getDebut()&&$now<$dateFin) {
-            $etat = $repo->findOneBy(['libelle'=>'Activitée en cours']);
+            $etat = $repo->findOneBy(['libelle'=>'Activité en cours']);
             $sortie->setEtat($etat);
         }
         $em->persist($sortie);
