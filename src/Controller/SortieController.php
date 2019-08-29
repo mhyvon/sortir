@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +46,40 @@ class SortieController extends Controller
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/register", name="sortie_register", methods={"GET","POST"})
+     * @param Sortie $sortie
+     * @return RedirectResponse
+     */
+    public function addParticipant(Sortie $sortie){
+
+        $sortie->addInscription($this->getUser());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_show',  [
+            'id'=>$sortie->getId(),
+        ]);
+    }
+
+    /**
+     * @param Sortie $sortie
+     * @Route("/{id}/unregister", name="sortie_unregister", methods={"GET","POST"})
+     * @return RedirectResponse
+     */
+    public function removeParticipant(Sortie$sortie){
+
+        $sortie->removeInscription($this->getUser());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_show',  [
+            'id'=>$sortie->getId(),
         ]);
     }
 
