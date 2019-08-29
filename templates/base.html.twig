@@ -6,10 +6,47 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         {{ encore_entry_link_tags('app') }}
+
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/accueil">Sortir.com</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/accueil">Villes </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accueil">Sites</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accueil">Mon Profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accueil" style="position: absolute; top :3px; right :3px">Deconnexion</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+
+
     </head>
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
     {{ encore_entry_script_tags('app') }}
+
+
+    <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+        <div class="container text-center">
+            <small>Copyright &copy; Sortir.com</small>
+        </div>
+    </footer>
+
+
 </html>
