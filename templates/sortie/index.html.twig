@@ -3,43 +3,50 @@
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
-    <h1>Sortie index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Debut</th>
-                <th>Duree</th>
-                <th>Date fin d'inscription</th>
-                <th>InscriptionsMax</th>
-                <th>Description</th>
-                <th>UrlPhoto</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.id }}</td>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.debut ? sortie.debut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.clotureInscriptions ? sortie.clotureInscriptions|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.inscriptionsMax }}</td>
-                <td>{{ sortie.description }}</td>
-                <td>{{ sortie.urlPhoto }}</td>
-                <td>
-                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">Aucune sortie trouvée</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <section id="sortie" class="pb-5">
+        <div class="container">
+            <h5 class="section-title h1" style="color: #0056b3">Liste des sorties</h5>
+            <div class="row">
+
+                {% for sortie in sorties %}
+                    <!-- Liste des sorties-->
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                            <div class="mainflip">
+                                <div class="frontside">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <p><img class=" img-fluid" src="{{ asset('build/images/lico.png') }}" alt="card image"></p>
+                                            <h4 class="card-title">{{sortie.nom}}</h4>
+                                            <p class="card-text">{{  sortie.debut ? sortie.debut|date('Y-m-d H:i:s') : ''  }}</p>
+                                            <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="backside">
+                                    <div class="card">
+                                        <div class="card-body text-center mt-4">
+                                            <h4 class="card-title">{{sortie.nom}}</h4>
+                                            <p class="card-text" align="justify">{{ sortie.description }} </p>
+                                            <p class="card-text">Durée : {{ sortie.duree }} minutes</p>
+
+                                            <p class="card-text">Places restantes : {{ sortie.inscriptionsMax - sortie.inscriptions|length }} / {{ sortie.inscriptionsMax }}</p>
+
+                                            <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-default">Voir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <a href="{{ path('sortie_new') }}">Créer une sortie</a>
 {% endblock %}
