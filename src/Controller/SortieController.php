@@ -24,9 +24,8 @@ class SortieController extends Controller
     public function index(SortieRepository $sortieRepository): Response
     {
         $liste = $sortieRepository->findAll();
-
         foreach ($liste as $sortie) {
-            $this->maj($sortieRepository, $sortie);
+            $this->maj($sortie);
         };
 
         return $this->render('sortie/index.html.twig', [
@@ -101,6 +100,7 @@ class SortieController extends Controller
      */
     public function show(Sortie $sortie): Response
     {
+        $this->maj($sortie);
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
         ]);
@@ -140,7 +140,7 @@ class SortieController extends Controller
         return $this->redirectToRoute('sortie_index');
     }
 
-    public function maj(SortieRepository $sortieRepository, Sortie $sortie){
+    public function maj(Sortie $sortie){
 
         $em = $this->getDoctrine()->getManager();
 
@@ -150,13 +150,16 @@ class SortieController extends Controller
         $dateFin = new \DateTime($sortie->getDebut()->format('Y-m-d H:i:s'));
 
         $dateFin->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
-        
+
         if ($now>$sortie->getDebut()&&$now<$dateFin) {
             $etat = $repo->findOneBy(['libelle'=>'Activité en cours']);
             $sortie->setEtat($etat);
         }
+        if ($now>$dateFin&&$sortie->getEtat()->getLibelle()!='Annulée'){
+            $etat = $repo->findOneBy(['libelle'=>'Passée']);
+            $sortie->setEtat($etat);
+        }
         $em->persist($sortie);
         $em->flush();
-
     }
 }
