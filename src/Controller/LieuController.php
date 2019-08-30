@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/lieu")
@@ -46,6 +49,26 @@ class LieuController extends Controller
             'lieu' => $lieu,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/ajaxAction", name="lieu_ajaxAction", methods={"GET","POST"})
+     * @param Request $request
+     * @param LieuRepository $lieuRepository
+     * @return Response
+     */
+    public function ajaxAction(Request $request, LieuRepository $lieuRepository){
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $id = $request->get('villeid');
+        $liste = $lieuRepository->findBy(['ville'=>$id]);
+
+        $json = json_encode($serializer->serialize($liste, 'json'));
+
+        return new Response($json);
     }
 
     /**
@@ -91,4 +114,5 @@ class LieuController extends Controller
 
         return $this->redirectToRoute('lieu_index');
     }
+
 }

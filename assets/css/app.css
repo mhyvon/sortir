@@ -1,24 +1,22 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
-body {
-    background-color: lightgray;
-    margin-bottom: 100px;
+main {
+    min-height: 800px;
+    padding: 50px;
 }
 
 
 
 
 /* footer */
-body {
-    height: 100%;
-}
+
 
 #page-content {
     flex: 1 0 auto;
 }
 
-#sticky-footer {
-    flex-shrink: none;
+footer {
+    height: 130px;
 }
 
 /* Other Classes for Page Styling */
@@ -26,6 +24,8 @@ body {
 body {
     background: #007bff;
     background: linear-gradient(to right, #b3d7ff, #e0e0e0);
+    background-color: lightgray;
+    height: 100%;
 }
 /* fin footer */
 

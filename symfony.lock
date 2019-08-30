@@ -328,6 +328,9 @@
             "./config/packages/security.yaml"
         ]
     },
+    "symfony/serializer": {
+        "version": "v3.4.31"
+    },
     "symfony/service-contracts": {
         "version": "v1.1.5"
     },
