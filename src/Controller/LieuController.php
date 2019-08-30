@@ -91,4 +91,18 @@ class LieuController extends Controller
 
         return $this->redirectToRoute('lieu_index');
     }
+
+    /**
+     * @Route("ajaxAction", name="ajaxAction", methods={"GET","POST"})
+     * @param Request $request
+     * @param LieuRepository $lieuRepository
+     * @return Lieu[]
+     */
+    public function ajaxAction(Request $request, LieuRepository $lieuRepository){
+
+        $id = $request->get('idVille');
+        $liste = $lieuRepository->findBy(['id_ville'=>$id]);
+        return $liste;
+
+    }
 }

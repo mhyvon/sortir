@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,6 +60,20 @@ class SortieController extends Controller
             'sortie' => $sortie,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @param Sortie $sortie
+     * @Route("/{id}/cancel", name="sortie_cancel", methods={"GET","POST"})
+     */
+    public function cancel(Sortie $sortie, EtatRepository $repo, EntityManagerInterface $em){
+
+        $etat = $repo->findOneBy(['libelle'=>'Annulée']);
+
+        $sortie->setEtat($etat);
+        $em->persist($sortie);
+        $em->flush();
+
     }
 
     /**

@@ -31,3 +31,17 @@ require('bootstrap-star-rating');
 // require 2 CSS files needed
 require('bootstrap-star-rating/css/star-rating.css');
 require('bootstrap-star-rating/themes/krajee-svg/theme.css');
+
+$('.listeVille').change(function(){
+    $.ajax({
+        url: 'ajaxAction',
+        data: { idVille: $(this) },
+        success: function(liste){
+            for ($option in liste) {
+                var o = new Option($option.toString(), $option.toString());
+                $(o).html($option.toString());
+                $('#listeLieux').append(o);
+            }
+        }
+    })
+});
