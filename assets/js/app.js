@@ -32,17 +32,18 @@ require('bootstrap-star-rating');
 require('bootstrap-star-rating/css/star-rating.css');
 require('bootstrap-star-rating/themes/krajee-svg/theme.css');
 
-$('.listeVille').change(function(){
+$('#sortie_ville').change(function(){
     $.ajax({
-        url: 'lieu/ajaxAction',
-        data: { idVille: $(this) },
+        url: '../lieu/ajaxAction',
+        data: { villeid: $('#sortie_ville').val() },
         dataType: 'JSON',
-        success: function(liste){
-
+        success: function(json){
+            $('#sortie_lieu').empty();
+            var liste = JSON.parse(json);
             for (let i = 0; i<liste.length; i++){
-                let o = new Option(option, option);
-                $(o).html(option);
-                $('#listeLieux').append(o);
+                let o = new Option(liste[i], liste[i]);
+                $(o).html(liste[i]);
+                $('#sortie_lieu').append(o);
             }
         }
     })

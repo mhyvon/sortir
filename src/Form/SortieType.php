@@ -34,9 +34,6 @@ class SortieType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class'=>Lieu::class,
-                'attr'=>[
-                    'id'=>'listeLieux',
-                ]
             ])
             ->add('submit', SubmitType::class)
         ;

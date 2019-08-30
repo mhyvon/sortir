@@ -49,6 +49,28 @@ class LieuController extends Controller
     }
 
     /**
+     * @Route("/ajaxAction", name="lieu_ajaxAction", methods={"GET","POST"})
+     * @param Request $request
+     * @param LieuRepository $lieuRepository
+     * @return Response
+     */
+    public function ajaxAction(Request $request, LieuRepository $lieuRepository){
+        $id = $request->get('villeid');
+        $liste = $lieuRepository->findBy(['ville'=>$id]);
+
+        $listeJson = array();
+
+        foreach ($liste as $lieu) {
+            $listeJson[]=$lieu->jsonSerialize();
+        }
+
+        $json = json_encode($listeJson);
+
+
+        return new Response($json);
+    }
+
+    /**
      * @Route("/{id}", name="lieu_show", methods={"GET"})
      */
     public function show(Lieu $lieu): Response
@@ -92,18 +114,4 @@ class LieuController extends Controller
         return $this->redirectToRoute('lieu_index');
     }
 
-    /**
-     * @Route("ajaxAction", name="lieu_ajaxAction", methods={"GET","POST"})
-     * @param Request $request
-     * @param LieuRepository $lieuRepository
-     * @return Response
-     */
-    public function ajaxAction(Request $request, LieuRepository $lieuRepository){
-        $id = $request->get('idVille');
-        $liste = $lieuRepository->findBy(['id_ville'=>$id]);
-        $json = json_encode($liste);
-
-        return new Response($json);
-
-    }
 }
