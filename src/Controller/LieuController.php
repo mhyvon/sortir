@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/lieu")
@@ -55,17 +58,15 @@ class LieuController extends Controller
      * @return Response
      */
     public function ajaxAction(Request $request, LieuRepository $lieuRepository){
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
         $id = $request->get('villeid');
         $liste = $lieuRepository->findBy(['ville'=>$id]);
 
-        $listeJson = array();
-
-        foreach ($liste as $lieu) {
-            $listeJson[]=$lieu->jsonSerialize();
-        }
-
-        $json = json_encode($listeJson);
-
+        $json = json_encode($serializer->serialize($liste, 'json'));
 
         return new Response($json);
     }

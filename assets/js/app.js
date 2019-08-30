@@ -41,8 +41,8 @@ $('#sortie_ville').change(function(){
             $('#sortie_lieu').empty();
             var liste = JSON.parse(json);
             for (let i = 0; i<liste.length; i++){
-                let o = new Option(liste[i], liste[i]);
-                $(o).html(liste[i]);
+                let o = new Option(liste[i].nom, liste[i].id);
+                $(o).html(liste[i].nom);
                 $('#sortie_lieu').append(o);
             }
         }

@@ -8,7 +8,7 @@ use JsonSerializable;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LieuRepository")
  */
-class Lieu implements JsonSerializable
+class Lieu
 {
     /**
      * @ORM\Id()
@@ -113,15 +113,4 @@ class Lieu implements JsonSerializable
         return $this->getNom();
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
-    {
-        return  json_encode(get_object_vars($this));
-    }
 }
