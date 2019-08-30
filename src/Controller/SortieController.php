@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
+use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,15 +26,19 @@ class SortieController extends Controller
     /**
      * @Route("/", name="sortie_index", methods={"GET"})
      */
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository ): Response
+
     {
+        $repo=$this->getDoctrine()->getRepository(Site::class)->findAll();
+
+
         $liste = $sortieRepository->findAll();
         foreach ($liste as $sortie) {
             $this->maj($sortie);
         };
 
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $liste,
+            'sorties' => $liste, 'sites' => $repo
         ]);
     }
 
@@ -189,4 +196,24 @@ class SortieController extends Controller
         $em->persist($sortie);
         $em->flush();
     }
+
+
+
+
+    /**
+     * @Route("rechercheSortie", name="entity_recherche_sortie", methods={"GET"})
+     */
+    public function rechercheAnnonces(Request $request, EntityManagerInterface $entityManager){
+
+        $mot = $request->get('motR');
+        $site= $request->get('siteR');
+
+        $maListe= $entityManager->getRepository('App:Sortie')->rechercheSortie($mot, $site);
+        $repo=$this->getDoctrine()->getRepository(Site::class)->findAll();
+
+
+        return $this->render("sortie/recherche.html.twig",['maListe'=>$maListe, 'sites' => $repo]);
+    }
+
+
 }
