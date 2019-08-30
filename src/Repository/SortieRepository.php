@@ -19,6 +19,44 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+
+
+    public function rechercheSortie($var, $site) : array
+    {
+
+
+
+        if($site){
+            $req = $this->createQueryBuilder('s')
+                ->where('s.nom like :var')
+                ->setParameter('var','%'.$var.'%')
+                ->setMaxResults(6)
+            ;
+        }
+        if($var && $site==null){
+            $req = $this->createQueryBuilder('s')
+                ->where('s.nom like :var')
+                ->orWhere('s.description like :var')
+                ->setParameter('var','%'.$var.'%')
+                ->setMaxResults(6)
+            ;
+        }
+            else{
+                $req = $this->createQueryBuilder('s')
+                    ->where('s.nom like :var')
+                    ->orWhere('s.description like :var')
+                    ->setParameter('var','%'.$var.'%')
+                    ->setMaxResults(6)
+                ;
+            }
+
+
+
+        return $req->getQuery()->getResult();
+        exit();
+    }
+
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */

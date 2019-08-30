@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
+use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,15 +26,19 @@ class SortieController extends Controller
     /**
      * @Route("/", name="sortie_index", methods={"GET"})
      */
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository ): Response
+
     {
+        $repo=$this->getDoctrine()->getRepository(Site::class)->findAll();
+
+
         $liste = $sortieRepository->findAll();
         foreach ($liste as $sortie) {
             $this->maj($sortie);
         };
 
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $liste,
+            'sorties' => $liste, 'sites' => $repo
         ]);
     }
 
@@ -49,6 +57,31 @@ class SortieController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form['urlPhoto']->getData();
+
+
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imageFile->move(
+                        $this->getParameter('image_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $sortie->setUrlPhoto($newFilename);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -177,4 +210,24 @@ class SortieController extends Controller
         $em->persist($sortie);
         $em->flush();
     }
+
+
+
+
+    /**
+     * @Route("rechercheSortie", name="entity_recherche_sortie", methods={"GET"})
+     */
+    public function rechercheAnnonces(Request $request, EntityManagerInterface $entityManager){
+
+        $mot = $request->get('motR');
+        $site= $request->get('siteR');
+
+        $maListe= $entityManager->getRepository('App:Sortie')->rechercheSortie($mot, $site);
+        $repo=$this->getDoctrine()->getRepository(Site::class)->findAll();
+
+
+        return $this->render("sortie/recherche.html.twig",['maListe'=>$maListe, 'sites' => $repo]);
+    }
+
+
 }

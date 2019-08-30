@@ -10,19 +10,20 @@
 
             <h5 style="color: #0056b3">Filtrer les sorties</h5>
             <form action="{{ path('entity_recherche_sortie') }}" method="get">
-               <div class="form-group col-md-5">
-                   <label for="siteR">Site : </label>
-                   <select name="siteR" id="siteR">
-                       {% for site in sites %}
-                        <option value="{{ site.id }}">{{ site.nom }}</option>
-                       {% endfor %}
-                   </select>
-                   <br>
+                <div class="form-group col-md-5">
+                    <label for="siteR">Site : </label>
+                    <select name="siteR" id="siteR">
+                        <option></option>
+                        {% for site in sites %}
+                            <option value="{{ site.id }}">{{ site.nom }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
 
 
 
-                  <label for="motR">Le nom de la sortie contient : </label>
-                   <input name="motR" id="motR"
+                    <label for="motR">Le nom de la sortie contient : </label>
+                    <input name="motR" id="motR"
                            class="form-control search-field"
                            placeholder="{{ 'rechercher'}}"
                            autocomplete="off"
@@ -32,18 +33,7 @@
             </form>
             <div class="row">
 
-
-
-
-
-                <br>
-                <br>
-                <br>
-                <br>
-                <hr>
-                <hr>
-
-                {% for sortie in sorties %}
+                {% for sortie in maListe %}
                     <!-- Liste des sorties-->
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
@@ -80,8 +70,10 @@
         </div>
     </section>
 
+
+
+
     <div style="margin: 0 auto; width: 100px">
         <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer</a>
     </div>
-
 {% endblock %}
