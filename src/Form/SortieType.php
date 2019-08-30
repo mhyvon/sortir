@@ -38,9 +38,6 @@ class SortieType extends AbstractType
                     'mimeTypesMessage' => 'Please upload a valid PDF document',
                 ])
             ], ))
-            ->add('lieu', EntityType::class, [
-                'class'=>Lieu::class,
-            ])
             ->add('ville', EntityType::class, [
                 'class'=>Ville::class,
                 'mapped'=>false,
@@ -48,6 +45,9 @@ class SortieType extends AbstractType
                     'class'=>'listeVille',
                 ],
 
+            ])
+            ->add('lieu', EntityType::class, [
+                'class'=>Lieu::class,
             ])
             ->add('submit', SubmitType::class)
         ;
