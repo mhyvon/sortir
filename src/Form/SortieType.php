@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,9 +26,18 @@ class SortieType extends AbstractType
             ->add('urlPhoto')
             ->add('ville', EntityType::class, [
                 'class'=>Ville::class,
-                'mapped'=>false
+                'mapped'=>false,
+                'attr'=>[
+                    'class'=>'listeVille',
+                ],
+
             ])
-            ->add('lieu')
+            ->add('lieu', EntityType::class, [
+                'class'=>Lieu::class,
+                'attr'=>[
+                    'id'=>'listeLieux',
+                ]
+            ])
             ->add('submit', SubmitType::class)
         ;
     }

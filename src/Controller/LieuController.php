@@ -93,16 +93,17 @@ class LieuController extends Controller
     }
 
     /**
-     * @Route("ajaxAction", name="ajaxAction", methods={"GET","POST"})
+     * @Route("ajaxAction", name="lieu_ajaxAction", methods={"GET","POST"})
      * @param Request $request
      * @param LieuRepository $lieuRepository
-     * @return Lieu[]
+     * @return Response
      */
     public function ajaxAction(Request $request, LieuRepository $lieuRepository){
-
         $id = $request->get('idVille');
         $liste = $lieuRepository->findBy(['id_ville'=>$id]);
-        return $liste;
+        $json = json_encode($liste);
+
+        return new Response($json);
 
     }
 }

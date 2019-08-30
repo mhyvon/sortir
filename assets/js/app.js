@@ -22,9 +22,9 @@ require('bootstrap');
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
 
-$(document).ready(function() {
-    $('[data-toggle="popover"]').popover();
-});
+// $(document).ready(function() {
+//     $('[data-toggle="popover"]').popover();
+// });
 
 // require the JavaScript
 require('bootstrap-star-rating');
@@ -34,12 +34,14 @@ require('bootstrap-star-rating/themes/krajee-svg/theme.css');
 
 $('.listeVille').change(function(){
     $.ajax({
-        url: 'ajaxAction',
+        url: 'lieu/ajaxAction',
         data: { idVille: $(this) },
+        dataType: 'JSON',
         success: function(liste){
-            for ($option in liste) {
-                var o = new Option($option.toString(), $option.toString());
-                $(o).html($option.toString());
+
+            for (let i = 0; i<liste.length; i++){
+                let o = new Option(option, option);
+                $(o).html(option);
                 $('#listeLieux').append(o);
             }
         }
