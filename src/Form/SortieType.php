@@ -20,7 +20,7 @@ class SortieType extends AbstractType
             ->add('clotureInscriptions')
             ->add('inscriptionsMax')
             ->add('description', TextareaType::class, array(
-                'attr' => array('maxlength' => 250)))
+                'attr' => array('maxlength' => 500)))
             ->add('urlPhoto')
             ->add('lieu')
             ->add('submit', SubmitType::class)
