@@ -5,7 +5,18 @@
 {% block main %}
     <h1>Créer une sortie</h1>
 
-    {{ include('sortie/_form.html.twig') }}
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.debut) }}
+    {{ form_row(form.duree) }}
+    {{ form_row(form.clotureInscriptions) }}
+    {{ form_row(form.inscriptionsMax) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.urlPhoto) }}
+    {{ form_row(form.ville) }}
+    {{ form_row(form.lieu) }}
+
+    {{ form_row(form.submit) }}
     <a href="{{ path('sortie_index') }}">Revenir à la liste</a>
 {% endblock %}
 
