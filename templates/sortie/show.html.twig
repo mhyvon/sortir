@@ -40,11 +40,12 @@
                     <br>
                     {{sortie.description }}
                 </div>
-                <a href="{{ path('sortie_index') }}" type="button" class="btn btn-">Revenir à la liste</a>
+                <a href="{{ path('sortie_index') }}" type="button" class="btn btn-primary">Revenir à la liste</a>
 
                 {% if app.user %}
                     {% if app.user == sortie.organisateur %}
-                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" type="button" class="btn btn-">Modifier</a>
+                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Modifier</a>
+                        <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Annuler</a>
                         {{ include('sortie/_delete_form.html.twig') }}
                     {% else %}
                         {% if sortie in app.user.inscriptions %}
