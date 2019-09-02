@@ -34,7 +34,7 @@ require('bootstrap-star-rating/themes/krajee-svg/theme.css');
 
 $('#sortie_ville').change(function(){
     $.ajax({
-        url: '../lieu/ajaxAction',
+        url: '/lieu/ajaxAction',
         data: { villeid: $('#sortie_ville').val() },
         dataType: 'JSON',
         success: function(json){
