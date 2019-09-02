@@ -24,7 +24,6 @@ class SortieType extends AbstractType
         $builder
             ->add('nom')
             ->add('debut', DateTimeType::class, [
-                'widget' => 'single_text',
             ])
             ->add('duree', IntegerType::class,[
                 'attr'=>[
