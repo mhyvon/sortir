@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block main %}
+
+    <div class="container">
+    <h5 class="section-title h1" style="color: #0056b3; text-align: center">Profil de {{ participant.username }}</h5>
+
+    <div class="col-md-6">
+
+        <div style= "margin-bottom: 10px" >
+            <strong>Prénom : </strong>  {{participant.prenom}}
+        </div>
+        <div  style= "margin-bottom: 10px">
+            <strong>Nom : </strong>  {{participant.nom}}
+        </div>
+        <div  style= "margin-bottom: 10px">
+            <strong>Téléphone : </strong>  {{participant.telephone}}
+        </div>
+        <div  style= "margin-bottom: 10px">
+            <strong>Email : </strong>  {{participant.email}}
+        </div>
+        <div  style= "margin-bottom: 10px">
+            <strong>Ville de rattachement : </strong>   {{participant.site}}
+        </div>
+    </div>
+    </div>
+
+
+
+{% endblock %}

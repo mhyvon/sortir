@@ -93,8 +93,9 @@
                                     </thead>
                                     {% for inscription in  sortie.inscriptions %}
                                     <tbody>
+
                                     <tr>
-                                        <td scope="row">{{ inscription.username }}</td>
+                                        <td scope="row"><a href="{{ path('participant_show', {'id': inscription.id}) }}" >{{ inscription.username }}</a></td>
                                         <td>{{ inscription.prenom  }}
                                             {{ inscription.nom |upper }}</td>
                                     </tr>
