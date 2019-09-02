@@ -8,30 +8,12 @@
         <div class="container">
             <h5 class="section-title h1" style="color: #0056b3">Liste des sorties</h5>
 
+
             <h5 style="color: #0056b3">Filtrer les sorties</h5>
-            <form action="{{ path('entity_recherche_sortie') }}" method="get">
-               <div class="form-group col-md-5">
-                   <label for="siteR">Site : </label>
-                   <select name="siteR" id="siteR">
-                       {% for site in sites %}
-                        <option value="{{ site.id }}">{{ site.nom }}</option>
-                       {% endfor %}
-                   </select>
-                   <br>
 
+            {{ form(form) }}
 
-
-                  <label for="motR">Le nom de la sortie contient : </label>
-                   <input name="motR" id="motR"
-                           class="form-control search-field"
-                           placeholder="{{ 'rechercher'}}"
-                           autocomplete="off"
-                           autofocus
-                    >
-                </div>
-            </form>
             <div class="row">
-
 
 
                 {% for sortie in sorties %}

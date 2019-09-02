@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
-use App\Entity\Lieu;
-use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Form\ResearchType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -24,13 +23,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends Controller
 {
     /**
-     * @Route("/", name="sortie_index", methods={"GET"})
+     * @Route("/", name="sortie_index", methods={"GET","POST"})
      */
-    public function index(SortieRepository $sortieRepository ): Response
+    public function index(SortieRepository $sortieRepository, Request $request, EntityManagerInterface $em ): Response
 
     {
-        $repo=$this->getDoctrine()->getRepository(Site::class)->findAll();
+        $recherche=$this->createForm(ResearchType::class);
+        $recherche->handleRequest($request);
 
+
+        if ($recherche->isSubmitted()&&$recherche->isValid()) {
+
+            $mot = $recherche->get('motR')->getData();
+            $site= $recherche->get('siteR')->getData();
+            $dateD= $recherche->get('dateD')->getData();
+            $dateF= $recherche->get('dateF')->getData();
+            $orga= $recherche->get('orga')->getData();
+            $inscr= $recherche->get('inscr')->getData();
+            $nonInscr= $recherche->get('noninscr')->getData();
+            $passe= $recherche->get('passe')->getData();
+
+            $connecte = $this->getUser();
+
+            $maListe= $em->getRepository(Sortie::class)->rechercheSortie($mot, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte);
+
+            return $this->render('sortie/index.html.twig', [
+                'sorties'=>$maListe,
+                'form'=>$recherche->createView(),
+            ]);
+        }
 
         $liste = $sortieRepository->findAll();
         foreach ($liste as $sortie) {
@@ -38,7 +59,8 @@ class SortieController extends Controller
         };
 
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $liste, 'sites' => $repo
+            'sorties' => $liste,
+            'form'=>$recherche->createView(),
         ]);
     }
 
@@ -209,24 +231,6 @@ class SortieController extends Controller
         }
         $em->persist($sortie);
         $em->flush();
-    }
-
-
-
-
-    /**
-     * @Route("rechercheSortie", name="entity_recherche_sortie", methods={"GET"})
-     */
-    public function rechercheSorties(Request $request, EntityManagerInterface $entityManager){
-
-        $mot = $request->get('motR');
-        $site= $request->get('siteR');
-
-        $maListe= $entityManager->getRepository('App:Sortie')->rechercheSortie($mot, $site);
-        $repo=$this->getDoctrine()->getRepository(Site::class)->findAll();
-
-
-        return $this->render("sortie/recherche.html.twig",['maListe'=>$maListe, 'sites' => $repo]);
     }
 
 
