@@ -120,6 +120,7 @@ class SortieController extends Controller
     /**
      * @param Sortie $sortie
      * @Route("/{id}/cancel", name="sortie_cancel", methods={"GET","POST"})
+     * @return RedirectResponse
      */
     public function cancel(Sortie $sortie, EtatRepository $repo, EntityManagerInterface $em){
 
@@ -129,6 +130,7 @@ class SortieController extends Controller
         $em->persist($sortie);
         $em->flush();
 
+        return $this->redirectToRoute('sortie_index');
     }
 
     /**

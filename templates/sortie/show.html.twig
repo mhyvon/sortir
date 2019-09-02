@@ -47,6 +47,7 @@
     {% if app.user %}
         {% if app.user == sortie.organisateur %}
         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+        <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}">Annuler</a>
         {{ include('sortie/_delete_form.html.twig') }}
         {% else %}
             {% if sortie in app.user.inscriptions %}
