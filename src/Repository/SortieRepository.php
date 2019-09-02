@@ -21,39 +21,67 @@ class SortieRepository extends ServiceEntityRepository
 
 
 
-    public function rechercheSortie($var, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe) : array
+    public function rechercheSortie($var, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte) : array
     {
 
+        $req = $this->createQueryBuilder('s');
 
-
+        // Recherche par site
         if($site){
-            $req = $this->createQueryBuilder('s')
-                ->where('s.nom like :var')
-                ->setParameter('var','%'.$var.'%')
-                ->setMaxResults(6)
-            ;
+
+            // TODO : something
+
         }
-        if($var && $site==null){
-            $req = $this->createQueryBuilder('s')
-                ->where('s.nom like :var')
+
+        // Recherche par mot-clé titre/description
+        if($var){
+            $req
+                ->andWhere('s.nom like :var')
                 ->orWhere('s.description like :var')
                 ->setParameter('var','%'.$var.'%')
-                ->setMaxResults(6)
+                ->setMaxResults(6);
+        }
+
+        // Recherche par date
+        if($dateD && $dateF){
+            $req
+                ->andWhere('s.debut BETWEEN :min AND :max')
+                ->setParameter('min', $dateD)
+                ->setParameter('max', $dateF)
             ;
         }
-            else{
-                $req = $this->createQueryBuilder('s')
-                    ->where('s.nom like :var')
-                    ->orWhere('s.description like :var')
-                    ->setParameter('var','%'.$var.'%')
-                    ->setMaxResults(6)
-                ;
-            }
 
+        // Check si l'utilisateur connecté est l'organisateur
+        if($orga){
+            $req
+                ->andWhere('s.organisateur = :orga')
+                ->setParameter('orga', $connecte);
+        }
 
+        // Check si la sortie est passée
+        if($passe){
+            $req
+                ->andWhere('DATE_ADD(s.duree, s.debut, \'minute\') <= CURRENT_DATE()');
+        }
+
+        // Check si l'utilisateur connecté est inscrit
+        if($inscr){
+            $req
+                ->andWhere(':user MEMBER OF s.inscriptions')
+                ->setParameter('user', $connecte);
+            // sortie_participant as sp on sp.sortie_id = s.sortie_id where sp.participant_id =$connecte->getId();
+        }
+
+        // Check si l'utilisateur connecté est inscrit
+        if($nonInscr){
+            $req
+                ->andWhere(':user NOT MEMBER OF s.inscriptions')
+                ->setParameter('user', $connecte);
+        }
+
+        //$req->setMaxResults(6);
 
         return $req->getQuery()->getResult();
-        exit();
     }
 
 
