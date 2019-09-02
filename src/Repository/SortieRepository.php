@@ -21,7 +21,7 @@ class SortieRepository extends ServiceEntityRepository
 
 
 
-    public function rechercheSortie($var, $site) : array
+    public function rechercheSortie($var, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe) : array
     {
 
 

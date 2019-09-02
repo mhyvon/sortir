@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -22,7 +23,11 @@ class SortieType extends AbstractType
         $builder
             ->add('nom')
             ->add('debut')
-            ->add('duree')
+            ->add('duree', TimeType::class,[
+                'attr'=>[
+                    'class'=>'duree',
+                ]
+            ])
             ->add('clotureInscriptions')
             ->add('inscriptionsMax')
             ->add('description', TextareaType::class, array(
