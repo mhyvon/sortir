@@ -42,7 +42,8 @@ class LieuController extends Controller
             $entityManager->persist($lieu);
             $entityManager->flush();
 
-            return $this->redirectToRoute('lieu_index');
+            //return $this->redirectToRoute('lieu_index');
+            return new Response();
         }
 
         return $this->render('lieu/new.html.twig', [

@@ -53,8 +53,10 @@
         </div>
     </section>
 
+    {% if app.user %}
     <div style="margin: 0 auto; width: 100px">
         <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer</a>
     </div>
+    {% endif %}
 
 {% endblock %}
