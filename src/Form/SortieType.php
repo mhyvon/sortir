@@ -40,7 +40,7 @@ class SortieType extends AbstractType
                         'image/jpeg',
                         'image/jpg',
                     ],
-                    'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    'mimeTypesMessage' => 'Format invalide',
                 ])
             ], ))
             ->add('ville', EntityType::class, [
@@ -64,4 +64,9 @@ class SortieType extends AbstractType
             'data_class' => Sortie::class,
         ]);
     }
+
+
+
+
+
 }

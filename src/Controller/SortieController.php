@@ -217,7 +217,7 @@ class SortieController extends Controller
     /**
      * @Route("rechercheSortie", name="entity_recherche_sortie", methods={"GET"})
      */
-    public function rechercheAnnonces(Request $request, EntityManagerInterface $entityManager){
+    public function rechercheSorties(Request $request, EntityManagerInterface $entityManager){
 
         $mot = $request->get('motR');
         $site= $request->get('siteR');
