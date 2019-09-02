@@ -15,6 +15,41 @@
     {{ form_row(form.urlPhoto) }}
     {{ form_row(form.ville) }}
     {{ form_row(form.lieu) }}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">+</button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Liste des participants</h4>
+                </div>
+                <div class="modal-body" style="overflow-y:auto">
+
+                    <table class="table table-bordered">
+
+                        <thead>
+                        <tr>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Nom</th>
+                        </tr>
+                        </thead>
+                        {% for inscription in  sortie.inscriptions %}
+                        <tbody>
+                        <tr>
+                            <td scope="row">{{ inscription.username }}</td>
+                            <td>{{ inscription.prenom  }}
+                                {{ inscription.nom |upper }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {{ form_row(form.submit) }}
     <a href="{{ path('sortie_index') }}">Revenir à la liste</a>
