@@ -80,6 +80,8 @@ class SortieController extends Controller
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
+        $entityManager = $this->getDoctrine()->getManager();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imageFile */
@@ -107,21 +109,31 @@ class SortieController extends Controller
                 $sortie->setUrlPhoto($newFilename);
             }
 
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
 
             return $this->redirectToRoute('sortie_index');
         }
 
-        //$lieu = new Lieu();
-        //$formlieu = $this->createForm(LieuType::class, $lieu);
-        //$formlieu->handleRequest($request);
+        $lieu = new Lieu();
+        $formlieu = $this->createForm(LieuType::class, $lieu);
+        $formlieu->handleRequest($request);
+
+        if($formlieu->isSubmitted()&&$formlieu->isValid()){
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+
+            return $this->render('sortie/new.html.twig', [
+                'sortie' => $sortie,
+                'form' => $form->createView(),
+                'formlieu'=>$formlieu->createView()
+            ]);
+        }
 
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
-            //'formlieu'=>$formlieu->createView()
+            'formlieu'=>$formlieu->createView()
         ]);
     }
 
