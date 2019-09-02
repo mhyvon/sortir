@@ -3,57 +3,101 @@
 {% block title %}Sortie{% endblock %}
 
 {% block main %}
-    <h1>Sortie</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
-            </tr>
-            <tr>
-                <th>Debut</th>
-                <td>{{ sortie.debut ? sortie.debut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
-            </tr>
-            <tr>
-                <th>Date fin inscription</th>
-                <td>{{ sortie.clotureInscriptions ? sortie.clotureInscriptions|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>InscriptionsMax</th>
-                <td>{{ sortie.inscriptionsMax }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ sortie.description }}</td>
-            </tr>
-            <tr>
-                <th>UrlPhoto</th>
-                <td>{{ sortie.urlPhoto }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('sortie_index') }}">Revenir à la liste</a>
 
-    {% if app.user %}
-        {% if app.user == sortie.organisateur %}
-        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
-        {{ include('sortie/_delete_form.html.twig') }}
-        {% else %}
-            {% if sortie in app.user.inscriptions %}
-            <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}">se désinscrire</a>
-            {% else %}
-            <a href="{{ path('sortie_register', {'id': sortie.id}) }}">s'inscrire</a>
-            {% endif %}
-        {% endif %}
-    {% endif %}
+    <h5 class="section-title h1" style="color: #0056b3; text-align: center; margin-bottom: 30px" >{{sortie.nom}}</h5>
+
+
+    <div class="container">
+        <div class="row">
+        <img src="{{ asset('build/images/' ~ sortie.urlPhoto) }}" alt="card image" style="width: 400px; height: 400px; margin-bottom: 10px">
+
+
+            <div class="col-md-6">
+                <div  style= "margin-bottom: 10px">
+                    Ville organisatrice :   {{sortie.lieu.ville}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Lieu :   {{sortie.lieu}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Rue :   {{sortie.lieu.rue}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Code Postal :   {{sortie.lieu.ville.codePostal}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Latitude :   {{sortie.lieu.latitude}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Longitude :   {{sortie.lieu.longitude}}
+                </div>
+                <br>
+                <div  style= "margin-bottom: 10px">
+                    <strong>Description : </strong>
+                    <br>
+                    <br>
+                    {{sortie.description }}
+                </div>
+                <a href="{{ path('sortie_index') }}" type="button" class="btn btn-">Revenir à la liste</a>
+
+                {% if app.user %}
+                    {% if app.user == sortie.organisateur %}
+                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" type="button" class="btn btn-">Modifier</a>
+                        {{ include('sortie/_delete_form.html.twig') }}
+                    {% else %}
+                        {% if sortie in app.user.inscriptions %}
+                            <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
+                        {% else %}
+                            <a href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success">s'inscrire</a>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
+            </div>
+            <div class="col-md-3">
+
+                <div style= "margin-bottom: 10px" >
+                    Date de la sortie :   {{sortie.debut ? sortie.debut|date('Y-m-d à H:i:s') : ''}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Date limite d'inscription:   {{sortie.clotureInscriptions ? sortie.clotureInscriptions|date('Y-m-d à H:i:s') : ''}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Nombre de places :   {{sortie.inscriptionsMax}}
+                </div>
+                <div  style= "margin-bottom: 10px">
+                    Durée :   {{sortie.duree}} minutes
+                </div>
+                <br>
+
+                <p><strong> Liste des participants : </strong></p>
+
+
+                    <table class="table table-bordered">
+
+                        <thead>
+                        <tr>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Nom</th>
+                        </tr>
+                        </thead>
+                        {% for inscription in  sortie.inscriptions %}
+                        <tbody>
+                        <tr>
+                            <td scope="row">{{ inscription.username }}</td>
+                            <td>{{ inscription.prenom  }}
+                                {{ inscription.nom  }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
