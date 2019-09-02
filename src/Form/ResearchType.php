@@ -56,6 +56,9 @@ class ResearchType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'label'=>'Rechercher',
+                'attr'=>[
+                    'class'=>'btn btn-primary'
+                ]
             ])
         ;
     }

@@ -12,9 +12,9 @@
             <h5 style="color: #0056b3">Filtrer les sorties</h5>
 
             {{ form(form) }}
-
+            <a href="{{ path('sortie_index') }}" class="btn btn-primary">Toutes les sorties</a>
+            
             <div class="row">
-
 
                 {% for sortie in sorties %}
                     <!-- Liste des sorties-->
