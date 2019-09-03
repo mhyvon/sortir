@@ -50,7 +50,7 @@
                             {% if sortie in app.user.inscriptions %}
                                 <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
                             {% else %}
-                                <a href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success" {% if sortie.inscriptionsMax==sorties.inscriptions|length %}{% endif %}>s'inscrire</a>
+                                <a id="btnInscrSortie" href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success {% if sortie.inscriptionsMax==sortie.inscriptions|length %} disabled{% endif %}">s'inscrire</a>
                             {% endif %}
                             {% endif %}
                     {% endif %}
