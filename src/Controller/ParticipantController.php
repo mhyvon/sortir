@@ -10,11 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/participant")
+ */
 class ParticipantController extends Controller
 {
 
     /**
-     * @Route("/{id}", name="participant_show", methods={"GET"})
+     * @Route("/{id}/{sortie}", name="participant_show", methods={"GET","POST"})
      */
     public function show(Participant $participant, Sortie $sortie): Response
     {
@@ -22,6 +25,7 @@ class ParticipantController extends Controller
         return $this->render('participant/show.html.twig', [
             'participant' => $participant,
             'sortie' => $sortie,
+
         ]);
     }
 

@@ -95,7 +95,7 @@
                                     <tbody>
 
                                     <tr>
-                                        <td scope="row"><a href="{{ path('participant_show', {'id': inscription.id, 'sortie': sortie })}}">{{ inscription.username }}</a></td>
+                                        <td scope="row"><a href= "{{ path('participant_show', {'id': inscription.id, 'sortie' : sortie.id }) }}" >{{ inscription.username }}</a></td>
                                         <td>{{ inscription.prenom  }}
                                             {{ inscription.nom |upper }}</td>
                                     </tr>
