@@ -18,6 +18,9 @@ class ParticipantController extends Controller
 
     /**
      * @Route("/{id}/{sortie}", name="participant_show", methods={"GET","POST"})
+     * @param Participant $participant
+     * @param Sortie $sortie
+     * @return Response
      */
     public function show(Participant $participant, Sortie $sortie): Response
     {
