@@ -20,7 +20,6 @@ class LieuType extends AbstractType
             ->add('longitude')
             ->add('ville')
             ->add('submit', SubmitType::class)
-            ->setAttribute('id', 'lieu');
         ;
     }
 

@@ -30,11 +30,14 @@ class LieuController extends Controller
     }
 
     /**
-     * @Route("/ajaxModale", name="lieu_ajaxModale", methods={"POST"})
+     * @Route("/ajaxModale", name="lieu_ajaxModale", methods={"GET", "POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
      */
     public function ajaxModale(Request $request, EntityManagerInterface $em) {
 
-        $formData = $request->get('formData');
+        $formData = $request->get('formData')->getData();
         $nom = $formData->get('nom');
         $rue = $formData->get('rue');
         $longitude = $formData->get("longitude");

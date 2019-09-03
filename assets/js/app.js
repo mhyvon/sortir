@@ -67,15 +67,14 @@ $(document).ready(function(){
 // });
 
 $('#nouveauLieu').submit(function(event) {
-    console.log('ok');
+
     event.preventDefault();  // Empêcher le rechargement de la page.
 
-    var formData = new FormData($("#nouveauLieu"));
-
     $.ajax({
-        type: "POST",
         url: "/lieu/ajaxModale",
-        data: {formData: formData},
+        processData: false,
+        contentType: false,
+        data: {formData: new FormData($('#nouveauLieu')[0])},
         success: function(){
             $("#exampleModal").modal('hide');
         }
