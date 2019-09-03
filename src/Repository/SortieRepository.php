@@ -21,7 +21,7 @@ class SortieRepository extends ServiceEntityRepository
 
 
 
-    public function rechercheSortie($var, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte) : array
+    public function rechercheSortie($var, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte, $etat) : array
     {
 
         $req = $this->createQueryBuilder('s');
@@ -63,7 +63,9 @@ class SortieRepository extends ServiceEntityRepository
         // Check si la sortie est passée
         if($passe){
             $req
-                ->andWhere('DATE_ADD(s.duree, s.debut, \'minute\') <= CURRENT_DATE()');
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', $etat)
+            ;
         }
 
         // Check si l'utilisateur connecté est inscrit

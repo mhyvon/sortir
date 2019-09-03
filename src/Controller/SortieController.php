@@ -45,7 +45,10 @@ class SortieController extends Controller
 
             $connecte = $this->getUser();
 
-            $maListe= $em->getRepository(Sortie::class)->rechercheSortie($mot, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte);
+            $repo = $this->getDoctrine()->getRepository(Etat::class);
+            $etat = $repo->findOneBy(['libelle'=>'Passée']);
+
+            $maListe= $em->getRepository(Sortie::class)->rechercheSortie($mot, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte, $etat);
 
             return $this->render('sortie/index.html.twig', [
                 'sorties'=>$maListe,
