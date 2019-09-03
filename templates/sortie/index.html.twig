@@ -10,9 +10,53 @@
 
 
             <h5 style="color: #0056b3">Filtrer les sorties</h5>
+            <div class="row" style="padding-bottom: 20px">
+                <div class="col-md-6">
 
-            {{ form(form) }}
-            <a href="{{ path('sortie_index') }}" class="btn btn-primary">Toutes les sorties</a>
+                    {{ form_label(form.motR) }}
+                    {{ form_widget(form.motR) }}
+                    <br>
+                    {{ form_label(form.siteR) }}
+                    {{ form_widget(form.siteR) }}
+                    <br>
+                    {{ form_label(form.dateD) }}
+                    {{ form_widget(form.dateD) }}
+                    {{ form_label(form.dateF) }}
+                    {{ form_widget(form.dateF) }}
+
+
+                </div>
+
+                <div class="col-md-6">
+
+
+                    {{ form_widget(form.orga) }}
+                    {{ form_label(form.orga) }}
+                    <br>
+                    {{ form_widget(form.inscr) }}
+                    {{ form_label(form.inscr) }}
+                    <br>
+                    {{ form_widget(form.noninscr) }}
+                    {{ form_label(form.noninscr) }}
+
+                    <br>
+                    {{ form_widget(form.passe) }}
+                    {{ form_label(form.passe) }}
+
+                    <br>
+                    {{ form_label(form.submit) }}
+                    {{ form_widget(form.submit) }}
+                    <a href="{{ path('sortie_index') }}" class="btn btn-primary">Toutes les sorties</a>
+
+
+                </div>
+
+
+
+
+            </div>
+
+
             
             <div class="row">
 
