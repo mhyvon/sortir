@@ -28,7 +28,6 @@ class ParticipantController extends Controller
         return $this->render('participant/show.html.twig', [
             'participant' => $participant,
             'sortie' => $sortie,
-
         ]);
     }
 
