@@ -231,6 +231,16 @@ class SortieController extends Controller
             $etat = $repo->findOneBy(['libelle'=>'Passée']);
             $sortie->setEtat($etat);
         }
+
+
+        $interval = new \DateInterval('P30D');
+        $dateMoinsUnMois=$now->sub($interval);
+
+        if ($dateMoinsUnMois>$dateFin&&$sortie->getEtat()->getLibelle()!='Annulée'){
+            $etat = $repo->findOneBy(['libelle'=>'périmé']);
+            $sortie->setEtat($etat);
+        }
+
         $em->persist($sortie);
         $em->flush();
     }
