@@ -55,16 +55,6 @@ $(document).ready(function(){
     });
 });
 
-// $('#lieu_submit').click(function () {
-//     $.ajax({
-//         url: 'lieu/new',
-//         type: 'POST',
-//         error: function () {
-//             event.preventDefault();
-//             $("#exampleModal").modal('hide');
-//         }
-//     })
-// });
 
 $('#nouveauLieu').submit(function(event) {
 
@@ -72,9 +62,10 @@ $('#nouveauLieu').submit(function(event) {
 
     $.ajax({
         url: "/lieu/ajaxModale",
+        type: "POST",
+        data: {formData: new FormData($('#nouveauLieu').get(0))},
         processData: false,
         contentType: false,
-        data: {formData: new FormData($('#nouveauLieu')[0])},
         success: function(){
             $("#exampleModal").modal('hide');
         }

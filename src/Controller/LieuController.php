@@ -37,7 +37,7 @@ class LieuController extends Controller
      */
     public function ajaxModale(Request $request, EntityManagerInterface $em) {
 
-        $formData = $request->get('formData')->getData();
+        $formData = $request->get('formData');
         $nom = $formData->get('nom');
         $rue = $formData->get('rue');
         $longitude = $formData->get("longitude");
