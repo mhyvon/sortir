@@ -46,11 +46,13 @@
                         <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-">Annuler</a>
                         {{ include('sortie/_delete_form.html.twig') }}
                     {% else %}
-                        {% if sortie in app.user.inscriptions %}
-                            <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
-                        {% else %}
-                            <a href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success">s'inscrire</a>
-                        {% endif %}
+                        {% if sortie.etat.libelle != 'Passée' or sortie.etat.libelle != 'Activitée en cours' %}
+                            {% if sortie in app.user.inscriptions %}
+                                <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
+                            {% else %}
+                                <a href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success" {% if sortie.inscriptionsMax==sorties.inscriptions|length %}{% endif %}>s'inscrire</a>
+                            {% endif %}
+                            {% endif %}
                     {% endif %}
                 {% endif %}
 
