@@ -28,8 +28,10 @@ class SortieRepository extends ServiceEntityRepository
 
         // Recherche par site
         if($site){
-
-            // TODO : something
+            $req
+                ->andWhere('s.site = :site')
+                ->setParameter('site', $site)
+            ;
 
         }
 
