@@ -6,9 +6,9 @@
 
     <section id="sortie" class="pb-5">
         <div class="container">
-            <h5 class="section-title h1" style="color: #0056b3">Liste des sorties</h5>
+            <h5 class="section-title h1 couleur">Liste des sorties</h5>
 
-            <h5 style="color: #0056b3">Filtrer les sorties</h5>
+            <h5 class="couleur">Filtrer les sorties</h5>
             <form action="{{ path('entity_recherche_sortie') }}" method="get">
                 <div class="form-group col-md-5">
                     <label for="siteR">Site : </label>
@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="backside" style="overflow-y:auto; overflow-x: hidden">
+                                <div class="backside backDesCartes">
                                     <div class="card">
                                         <div class="card-body text-center mt-4">
                                             <h4 class="card-title">{{sortie.nom}}</h4>
@@ -73,7 +73,7 @@
 
 
 
-    <div style="margin: 0 auto; width: 100px">
+    <div class="unBouton">
         <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer</a>
     </div>
 {% endblock %}
