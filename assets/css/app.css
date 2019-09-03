@@ -238,3 +238,7 @@ section .section-title {
 height: 300px;
 
 }
+
+.centrer{
+    margin: auto;
+}
