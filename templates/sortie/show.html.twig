@@ -73,29 +73,42 @@
                 </div>
                 <br>
 
-                <p><strong> Liste des participants : </strong></p>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Liste des participants</button>
 
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel">Liste des participants</h4>
+                            </div>
+                            <div class="modal-body" style="overflow-y:auto">
 
-                    <table class="table table-bordered">
+                                <table class="table table-bordered">
 
-                        <thead>
-                        <tr>
-                            <th scope="col">Pseudo</th>
-                            <th scope="col">Nom</th>
-                        </tr>
-                        </thead>
-                        {% for inscription in  sortie.inscriptions %}
-                        <tbody>
-                        <tr>
-                            <td scope="row">{{ inscription.username }}</td>
-                            <td>{{ inscription.prenom  }}
-                                {{ inscription.nom  }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Pseudo</th>
+                                        <th scope="col">Nom</th>
+                                    </tr>
+                                    </thead>
+                                    {% for inscription in  sortie.inscriptions %}
+                                    <tbody>
 
-
+                                    <tr>
+                                        <td scope="row"><a href="{{ path('participant_show', {'id': inscription.id, 'sortie': sortie })}}">{{ inscription.username }}</a></td>
+                                        <td>{{ inscription.prenom  }}
+                                            {{ inscription.nom |upper }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

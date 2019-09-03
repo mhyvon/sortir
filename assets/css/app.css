@@ -233,3 +233,8 @@ section .section-title {
 
 
 /*fin de pour les cartes */
+
+.modal-body{
+height: 300px;
+
+}
