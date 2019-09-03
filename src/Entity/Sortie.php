@@ -39,6 +39,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today")
      */
     private $clotureInscriptions;
 

@@ -275,3 +275,13 @@ height: 300px;
     overflow-y:auto;
     overflow-x: hidden;
 }
+
+.tofDeProfil{
+    margin: auto;
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius:50px;
+    -moz-border-radius:50px;
+    border-radius:80px;
+
+}
