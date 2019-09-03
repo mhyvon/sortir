@@ -70,6 +70,7 @@ class SortieController extends Controller
     public function new(Request $request, EtatRepository $repository): Response
     {
         $sortie = new Sortie();
+        $sortie->setSite($this->getUser()->getSite());
         $sortie->setOrganisateur($this->getUser());
 
         $etat = $repository->findOneBy(['libelle'=>'Créée']);

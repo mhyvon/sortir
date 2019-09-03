@@ -82,6 +82,7 @@ class Sortie
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $site;
 
