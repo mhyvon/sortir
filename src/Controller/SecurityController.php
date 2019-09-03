@@ -77,7 +77,7 @@ class SecurityController extends BaseController
      */
     public function logoutAction()
     {
-        return parent::logoutAction();
+        return $this->redirectToRoute('participant_login');
     }
 
 }

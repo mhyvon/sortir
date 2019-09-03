@@ -18,7 +18,7 @@ security:
                 default_target_path: sortie_index
 
             logout:
-                path: fos_user_security_logout
+                path: participant_logout
                 target: participant_login
             anonymous:    true
 
