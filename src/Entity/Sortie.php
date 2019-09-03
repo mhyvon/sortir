@@ -28,6 +28,7 @@ class Sortie
     /**
      * @var DateTime
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today")
      */
     private $debut;
 
