@@ -26,6 +26,7 @@ body {
     background: linear-gradient(to right, #b3d7ff, #e0e0e0);
     background-color: lightgray;
     height: 100%;
+    font-family:"times new roman", times, serif;
 }
 /* fin footer */
 
@@ -274,4 +275,15 @@ height: 300px;
 
     overflow-y:auto;
     overflow-x: hidden;
+}
+
+.tofDeProfil{
+    margin: 30px;
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius:50px;
+    -moz-border-radius:50px;
+    border-radius:80px;
+
+
 }
