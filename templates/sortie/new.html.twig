@@ -4,8 +4,49 @@
 
 {% block main %}
     <h1>Créer une sortie</h1>
+<div class="col-md-8">
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.debut) }}
+    {{ form_row(form.duree) }}
+    {{ form_row(form.clotureInscriptions) }}
+    {{ form_row(form.inscriptionsMax) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.urlPhoto) }}
+    {{ form_row(form.ville) }}
+    {{ form_label(form.lieu) }}
+    <div class="form-inline">
+        {{ form_widget(form.lieu) }}
+        <button type="button" class="btn btn-primary" id="modalBtn">+</button>
+    </div>
+    {{ form_row(form.submit) }}
+    {{ form_end(form) }}
+</div>
 
-    {{ include('sortie/_form.html.twig') }}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Créer un nouveau lieu</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="overflow-y:auto">
+
+                {{ form(formlieu, {'attr': {'id': 'nouveauLieu'}}) }}
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <a href="{{ path('sortie_index') }}">Revenir à la liste</a>
+
 {% endblock %}
 

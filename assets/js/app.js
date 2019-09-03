@@ -34,7 +34,7 @@ require('bootstrap-star-rating/themes/krajee-svg/theme.css');
 
 $('#sortie_ville').change(function(){
     $.ajax({
-        url: '../lieu/ajaxAction',
+        url: '/lieu/ajaxAction',
         data: { villeid: $('#sortie_ville').val() },
         dataType: 'JSON',
         success: function(json){
@@ -47,4 +47,29 @@ $('#sortie_ville').change(function(){
             }
         }
     })
+});
+
+$(document).ready(function(){
+    $("#modalBtn").click(function(){
+        $("#exampleModal").modal();
+    });
+});
+
+
+$('#nouveauLieu').submit(function(event) {
+
+    event.preventDefault();  // Empêcher le rechargement de la page.
+
+    var formData = new FormData($('#nouveauLieu').get(0))
+
+    $.ajax({
+        url: "/lieu/ajaxModale",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(){
+            $("#exampleModal").modal('hide');
+        }
+    });
 });
