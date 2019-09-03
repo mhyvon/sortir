@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Form\LieuType;
 use App\Repository\LieuRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,14 +36,15 @@ class LieuController extends Controller
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function ajaxModale(Request $request, EntityManagerInterface $em) {
+    public function ajaxModale(Request $request, EntityManagerInterface $em, VilleRepository $repository) {
 
-        $formData = $request->get('formData');
-        $nom = $formData->get('nom');
-        $rue = $formData->get('rue');
-        $longitude = $formData->get("longitude");
-        $latitude = $formData->get('latitude');
-        $ville = $formData->get("ville");
+        $formData = $request->request->all();
+
+        $nom = $formData['lieu']['nom'];
+        $rue = $formData['lieu']['rue'];
+        $longitude = (float)$formData['lieu']['longitude'];
+        $latitude = (float)$formData['lieu']['latitude'];
+        $ville=$repository->find($formData['lieu']['ville']);
 
         if ($nom && $rue && $ville) {
             $lieu = new Lieu();

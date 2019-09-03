@@ -60,10 +60,12 @@ $('#nouveauLieu').submit(function(event) {
 
     event.preventDefault();  // Empêcher le rechargement de la page.
 
+    var formData = new FormData($('#nouveauLieu').get(0))
+
     $.ajax({
         url: "/lieu/ajaxModale",
         type: "POST",
-        data: {formData: new FormData($('#nouveauLieu').get(0))},
+        data: formData,
         processData: false,
         contentType: false,
         success: function(){
