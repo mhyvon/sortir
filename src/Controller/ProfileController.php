@@ -44,7 +44,7 @@ class ProfileController extends BaseController
      * @param Request $request
      * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response|null
      *
-     * @Route("/edit", name="edit", methods={"GET","POST"})
+     * @Route("/edit", name="participant_edit", methods={"GET","POST"})
      */
     public function editAction(Request $request)
     {
