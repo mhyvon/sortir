@@ -23,22 +23,32 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item ">
-                        <a class="nav-link" href="/ville">Villes </a>
+                        <a class="nav-link" href="{{ path('ville_index') }}">Villes </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="/sortie">Sorties </a>
+                        <a class="nav-link" href="{{ path('sortie_index') }}">Sorties </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/site">Sites</a>
+                        <a class="nav-link" href="{{ path('site_index') }}">Sites</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/lieu">Lieux</a>
+                        <a class="nav-link" href="{{ path('lieu_index') }}">Lieux</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/participant/edit">Mon Profil</a>
+                        <a class="nav-link" href="{{ path('participant_edit') }}">Mon Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout" style="position: absolute; top :3px; right :3px">Deconnexion</a>
+                        <a class="nav-link" href="{{ path('participant_register') }}">Inscription</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('participant_login') }}">Se connecter</a>
+                    </li>
+
+
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('participant_logout') }}" style="position: absolute; top :3px; right :3px">Deconnexion</a>
                     </li>
                 </ul>
             </div>
@@ -57,6 +67,16 @@
 
 
     <footer class="py-4 bg-dark text-white-50 ">
+
+        <div class="col-md-6 mt-md-0 mt-3 alignedroit">
+
+            <!-- Content -->
+            <h5 class="text-uppercase">Retrouvez-nous aussi sur : </h5>
+            <img src="{{ asset('build/images/facebook.png') }}" alt="facebook"/>
+            <img src="{{ asset('build/images/logo-twitter1.png') }}" alt="twitter"/>
+            <img src="{{ asset('build/images/logo-LinkedIn.png') }}" alt="LinkedIn"/>
+
+        </div>
         <div class="container text-center">
             <small>Copyright &copy; Sortir.com</small>
         </div>

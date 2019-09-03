@@ -44,7 +44,7 @@ class RegistrationController extends BaseController
      * @param Request $request
      * @return RedirectResponse|Response|null
      *
-     * @Route("/register")
+     * @Route("/register", name="participant_register")
      */
     public function registerAction(Request $request)
     {
