@@ -19,7 +19,8 @@ class LieuType extends AbstractType
             ->add('latitude')
             ->add('longitude')
             ->add('ville')
-            ->add('submit', ButtonType::class)
+            ->add('submit', SubmitType::class)
+            ->setAttribute('id', 'lieu');
         ;
     }
 

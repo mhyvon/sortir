@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lieu;
 use App\Form\LieuType;
 use App\Repository\LieuRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +30,33 @@ class LieuController extends Controller
     }
 
     /**
+     * @Route("/ajaxModale", name="lieu_ajaxModale", methods={"POST"})
+     */
+    public function ajaxModale(Request $request, EntityManagerInterface $em) {
+
+        $formData = $request->get('formData');
+        $nom = $formData->get('nom');
+        $rue = $formData->get('rue');
+        $longitude = $formData->get("longitude");
+        $latitude = $formData->get('latitude');
+        $ville = $formData->get("ville");
+
+        if ($nom && $rue && $ville) {
+            $lieu = new Lieu();
+            $lieu->setNom($nom)
+                ->setRue($rue)
+                ->setLatitude($latitude)
+                ->setLongitude($longitude)
+                ->setVille($ville);
+
+            $em->persist($lieu);
+            $em->flush();
+        }
+
+        return new Response();
+    }
+
+    /**
      * @Route("/new", name="lieu_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -42,8 +70,8 @@ class LieuController extends Controller
             $entityManager->persist($lieu);
             $entityManager->flush();
 
-            //return $this->redirectToRoute('lieu_index');
-            return new Response();
+            return $this->redirectToRoute('lieu_index');
+            //return new Response();
         }
 
         return $this->render('lieu/new.html.twig', [

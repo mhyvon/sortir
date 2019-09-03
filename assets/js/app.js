@@ -55,12 +55,29 @@ $(document).ready(function(){
     });
 });
 
-$('#lieu_submit').click(function () {
+// $('#lieu_submit').click(function () {
+//     $.ajax({
+//         url: 'lieu/new',
+//         type: 'POST',
+//         error: function () {
+//             event.preventDefault();
+//             $("#exampleModal").modal('hide');
+//         }
+//     })
+// });
+
+$('#nouveauLieu').submit(function(event) {
+    console.log('ok');
+    event.preventDefault();  // Empêcher le rechargement de la page.
+
+    var formData = new FormData($("#nouveauLieu"));
+
     $.ajax({
-        url: 'lieu/new',
-        type: 'POST',
-        success: function () {
+        type: "POST",
+        url: "/lieu/ajaxModale",
+        data: {formData: formData},
+        success: function(){
             $("#exampleModal").modal('hide');
         }
-    })
+    });
 });
