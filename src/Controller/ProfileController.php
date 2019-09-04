@@ -110,7 +110,7 @@ class ProfileController extends BaseController
 
             $this->eventDispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
-            return $response;
+            return $this->redirectToRoute('sortie_index');
         }
 
         return $this->render('participant/edit.html.twig', array(
