@@ -33,6 +33,8 @@ class SortieController extends Controller
         $recherche=$this->createForm(ResearchType::class);
         $recherche->handleRequest($request);
 
+        //$this->getUser()->addRole('ROLE_ADMIN');
+
 
         if ($recherche->isSubmitted()&&$recherche->isValid()) {
 
