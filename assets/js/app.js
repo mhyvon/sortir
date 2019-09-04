@@ -39,7 +39,7 @@ $('#sortie_ville').change(function(){
         dataType: 'JSON',
         success: function(json){
             $('#sortie_lieu').empty();
-            var liste = JSON.parse(json);
+            let liste = JSON.parse(json);
             for (let i = 0; i<liste.length; i++){
                 let o = new Option(liste[i].nom, liste[i].id);
                 $(o).html(liste[i].nom);
@@ -48,6 +48,29 @@ $('#sortie_ville').change(function(){
         }
     })
 });
+
+$('#sortie_lieu').change(function () {
+    $.ajax({
+        url: '/ville/ajaxAction',
+        data: { lieuid: $('#sortie_lieu').val() },
+        dataType: 'JSON',
+        success: function(json){
+            let ville = JSON.parse(json);
+            let idVille = ville.id;
+            $('#sortie_ville option[value='+idVille+']').prop('selected', true);
+            // $("#sortie_ville").trigger('change');
+            
+        }
+    })
+});
+
+
+
+
+
+
+
+
 
 $(document).ready(function(){
     $("#modalBtn").click(function(){
@@ -76,4 +99,4 @@ $('#nouveauLieu').submit(function(event) {
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
-})
+});
