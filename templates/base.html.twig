@@ -33,7 +33,7 @@
 
 
                     {% if app.user %}
-                        {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
                     <li class="nav-item ">
                         <a class="nav-link" href="{{ path('ville_index') }}">Villes </a>
                     </li>
