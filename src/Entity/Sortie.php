@@ -217,7 +217,7 @@ class Sortie
 
     public function addInscription(Participant $inscription): self
     {
-        if (!$this->inscriptions->contains($inscription)) {
+        if ((!$this->inscriptions->contains($inscription))&&$this->inscriptions->count()<$this->getInscriptionsMax()) {
             $this->inscriptions[] = $inscription;
             $inscription->addInscription($this);
         }

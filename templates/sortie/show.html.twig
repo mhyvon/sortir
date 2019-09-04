@@ -4,8 +4,6 @@
 
 {% block main %}
 
-
-
     <h5 class="section-title h1 titreShow" >{{sortie.nom}}</h5>
 
 
@@ -46,11 +44,13 @@
                         <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-">Annuler</a>
                         {{ include('sortie/_delete_form.html.twig') }}
                     {% else %}
-                        {% if sortie in app.user.inscriptions %}
-                            <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
-                        {% else %}
-                            <a href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success">s'inscrire</a>
-                        {% endif %}
+                        {% if sortie.etat.libelle != 'Passée' or sortie.etat.libelle != 'Activitée en cours' %}
+                            {% if sortie in app.user.inscriptions %}
+                                <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
+                            {% else %}
+                                <span {% if sortie.inscriptionsMax==sortie.inscriptions|length %} data-toggle="tooltip" title="Il n'y a plus de places pour cette sortie !" data-placement="right"{% endif %}><a id="btnInscrSortie" href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success {% if sortie.inscriptionsMax==sortie.inscriptions|length %} disabled {% endif %}">s'inscrire</a></span>
+                            {% endif %}
+                            {% endif %}
                     {% endif %}
                 {% endif %}
 
