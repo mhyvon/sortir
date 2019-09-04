@@ -36,6 +36,7 @@ security:
         - { path: ^/participant/login$, role: ROLE_USER }
         - { path: ^/sortie, role: ROLE_USER }
         - { path: ^/participant/edit, role: ROLE_USER }
+        - { path: ^/participant/show, role: ROLE_USER }
         - { path: ^/participant, role: ROLE_ADMIN }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
