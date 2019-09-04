@@ -3,6 +3,15 @@
 
 {% block main %}
 
+    <div class="testt">
+
+    <h1 class="login">Bienvenue sur Sortir.com</h1>
+    <br>
+    <br>
+    <h3 class="login">Se connecter</h3>
+    <br>
+    <br>
+
     <div>
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
@@ -31,21 +40,54 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path("fos_user_security_check") }}" method="post">
-        {% if csrf_token %}
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-        {% endif %}
 
-        <label for="username">Pseudo</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
 
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+    <div class="login">
 
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-        <label for="remember_me">Se souvenir de moi</label>
+        <div class="container">
 
-        <input type="submit" id="_submit" name="_submit" value="Se connecter" />
-    </form>
+
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                {% endif %}
+
+                <label for="username" class="label2">Pseudo</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
+                <br>
+                <br>
+
+                <label for="password" class="label2">Mot de passe</label>
+                <input type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+                <br>
+                <br>
+
+
+                <label for="remember_me" class="label2">Se souvenir de moi</label>
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" style="margin: revert"/>
+                <br>
+                <br>
+
+                <input type="submit" id="_submit" name="_submit" value="Se connecter" class="btn btn-primary"/>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
 
 {% endblock %}

@@ -301,3 +301,30 @@ height: 300px;
     top :3px;
     right :3px;
 }
+
+.login {
+    text-align: center;
+    margin: auto;
+
+
+}
+
+.label2 {
+    width: 110px;
+    text-align: left;
+}
+
+#remember_me {
+    width: 200px;
+
+}
+
+.testt{
+    background-color: #f6f9fb;
+    width: 400px;
+    margin: auto;
+    border-radius:90px;
+
+
+}
+
