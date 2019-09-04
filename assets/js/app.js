@@ -64,14 +64,6 @@ $('#sortie_lieu').change(function () {
     })
 });
 
-
-
-
-
-
-
-
-
 $(document).ready(function(){
     $("#modalBtn").click(function(){
         $("#exampleModal").modal();

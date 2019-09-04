@@ -37,7 +37,13 @@ security:
         - { path: ^/sortie, role: ROLE_USER }
         - { path: ^/participant/edit, role: ROLE_USER }
         - { path: ^/participant/show, role: ROLE_USER }
+        - { path: ^/lieu/ajaxModale, role: ROLE_USER }
+        - { path: ^/lieu/ajaxAction, role: ROLE_USER }
+        - { path: ^/ville/ajaxAction, role: ROLE_USER }
         - { path: ^/participant, role: ROLE_ADMIN }
+        - { path: ^/site, role: ROLE_ADMIN }
+        - { path: ^/lieu, role: ROLE_ADMIN }
+        - { path: ^/ville, role: ROLE_ADMIN }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
 
