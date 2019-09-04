@@ -48,6 +48,11 @@ class Participant extends FosUser
     private $inscriptions;
 
     /**
+     * @ORM\Column(type="string", length=250, nullable=true)
+     */
+    private $photo;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -149,6 +154,22 @@ class Participant extends FosUser
         $this->site = $site;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo): void
+    {
+        $this->photo = $photo;
     }
 
 

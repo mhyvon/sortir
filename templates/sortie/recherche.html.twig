@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie index{% endblock %}
+
+{% block main %}
+
+    <section id="sortie" class="pb-5">
+        <div class="container">
+            <h5 class="section-title h1 couleur">Liste des sorties</h5>
+
+            <h5 class="couleur">Filtrer les sorties</h5>
+            <form action="{{ path('entity_recherche_sortie') }}" method="get">
+                <div class="form-group col-md-5">
+                    <label for="siteR">Site : </label>
+                    <select name="siteR" id="siteR">
+                        <option></option>
+                        {% for site in sites %}
+                            <option value="{{ site.id }}">{{ site.nom }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+
+
+
+                    <label for="motR">Le nom de la sortie contient : </label>
+                    <input name="motR" id="motR"
+                           class="form-control search-field"
+                           placeholder="{{ 'rechercher'}}"
+                           autocomplete="off"
+                           autofocus
+                    >
+                </div>
+            </form>
+            <div class="row">
+
+                {% for sortie in maListe %}
+                    <!-- Liste des sorties-->
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                            <div class="mainflip">
+                                <div class="frontside">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <p><img class=" img-fluid" src="{{ asset('uploads/images/' ~ sortie.urlPhoto) }}" alt="card image"></p>
+                                            <h4 class="card-title">{{sortie.nom}}</h4>
+                                            <p class="card-text">{{  sortie.debut ? sortie.debut|date('Y-m-d H:i:s') : ''  }}</p>
+                                            <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="backside backDesCartes">
+                                    <div class="card">
+                                        <div class="card-body text-center mt-4">
+                                            <h4 class="card-title">{{sortie.nom}}</h4>
+                                            <p class="card-text" align="justify">{{ sortie.description }} </p>
+                                            <p class="card-text">Durée : {{ sortie.duree }} minutes</p>
+
+                                            <p class="card-text">Places restantes : {{ sortie.inscriptionsMax - sortie.inscriptions|length }} / {{ sortie.inscriptionsMax }}</p>
+
+                                            <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-default">Voir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+    <div class="unBouton">
+        <a href="{{ path('sortie_new') }}" class="btn btn-primary">Créer</a>
+    </div>
+{% endblock %}

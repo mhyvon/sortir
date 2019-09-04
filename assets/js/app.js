@@ -22,12 +22,58 @@ require('bootstrap');
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
 
-$(document).ready(function() {
-    $('[data-toggle="popover"]').popover();
-});
+// $(document).ready(function() {
+//     $('[data-toggle="popover"]').popover();
+// });
 
 // require the JavaScript
 require('bootstrap-star-rating');
 // require 2 CSS files needed
 require('bootstrap-star-rating/css/star-rating.css');
 require('bootstrap-star-rating/themes/krajee-svg/theme.css');
+
+$('#sortie_ville').change(function(){
+    $.ajax({
+        url: '/lieu/ajaxAction',
+        data: { villeid: $('#sortie_ville').val() },
+        dataType: 'JSON',
+        success: function(json){
+            $('#sortie_lieu').empty();
+            var liste = JSON.parse(json);
+            for (let i = 0; i<liste.length; i++){
+                let o = new Option(liste[i].nom, liste[i].id);
+                $(o).html(liste[i].nom);
+                $('#sortie_lieu').append(o);
+            }
+        }
+    })
+});
+
+$(document).ready(function(){
+    $("#modalBtn").click(function(){
+        $("#exampleModal").modal();
+    });
+});
+
+
+$('#nouveauLieu').submit(function(event) {
+
+    event.preventDefault();  // Empêcher le rechargement de la page.
+
+    var formData = new FormData($('#nouveauLieu').get(0))
+
+    $.ajax({
+        url: "/lieu/ajaxModale",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(){
+            $("#exampleModal").modal('hide');
+        }
+    });
+});
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

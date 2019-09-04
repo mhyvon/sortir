@@ -1,24 +1,22 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
-body {
-    background-color: lightgray;
-    margin-bottom: 100px;
+main {
+    min-height: 800px;
+    padding: 50px;
 }
 
 
 
 
 /* footer */
-body {
-    height: 100%;
-}
+
 
 #page-content {
     flex: 1 0 auto;
 }
 
-#sticky-footer {
-    flex-shrink: none;
+footer {
+    height: 130px;
 }
 
 /* Other Classes for Page Styling */
@@ -26,6 +24,9 @@ body {
 body {
     background: #007bff;
     background: linear-gradient(to right, #b3d7ff, #e0e0e0);
+    background-color: lightgray;
+    height: 100%;
+    font-family:"times new roman", times, serif;
 }
 /* fin footer */
 
@@ -116,7 +117,7 @@ section {
 
 section .section-title {
     text-align: center;
-    color: #108d6f;
+    color: #0056b3;
     margin-bottom: 50px;
     text-transform: uppercase;
 }
@@ -223,7 +224,9 @@ section .section-title {
 .frontside .card .card-body img {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
+    margin: auto;
+
+
 }
 .card{
     height: 370px;
@@ -233,3 +236,62 @@ section .section-title {
 
 
 /*fin de pour les cartes */
+
+.modal-body{
+height: 300px;
+
+}
+
+.padd{
+    padding-bottom: 20px;
+}
+
+.alignedroit{
+    text-align: right;
+}
+
+.imageProfil{
+
+    width: 400px;
+    height: 400px;
+    margin-bottom: 10px;
+}
+
+.titreShow{
+
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.couleur{
+    color: #0056b3;
+}
+
+.unBouton{
+    margin: 0 auto;
+    width: 100px;
+}
+
+.backDesCartes{
+
+    overflow-y:auto;
+    overflow-x: hidden;
+}
+
+.tofDeProfil{
+    margin: 30px;
+    width: 150px;
+    height: 150px;
+    -webkit-border-radius:50px;
+    -moz-border-radius:50px;
+    border-radius:80px;
+}
+
+.paddbot{
+    margin-bottom: 10px;
+}
+
+.marg{
+    margin: auto;
+}

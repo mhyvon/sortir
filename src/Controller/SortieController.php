@@ -3,11 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Form\LieuType;
+use App\Form\ResearchType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,10 +25,39 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends Controller
 {
     /**
-     * @Route("/", name="sortie_index", methods={"GET"})
+     * @Route("/", name="sortie_index", methods={"GET","POST"})
      */
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository, Request $request, EntityManagerInterface $em ): Response
+
     {
+        $recherche=$this->createForm(ResearchType::class);
+        $recherche->handleRequest($request);
+
+
+        if ($recherche->isSubmitted()&&$recherche->isValid()) {
+
+            $mot = $recherche->get('motR')->getData();
+            $site= $recherche->get('siteR')->getData();
+            $dateD= $recherche->get('dateD')->getData();
+            $dateF= $recherche->get('dateF')->getData();
+            $orga= $recherche->get('orga')->getData();
+            $inscr= $recherche->get('inscr')->getData();
+            $nonInscr= $recherche->get('noninscr')->getData();
+            $passe= $recherche->get('passe')->getData();
+
+            $connecte = $this->getUser();
+
+            $repo = $this->getDoctrine()->getRepository(Etat::class);
+            $etat = $repo->findOneBy(['libelle'=>'Passée']);
+
+            $maListe= $em->getRepository(Sortie::class)->rechercheSortie($mot, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte, $etat);
+
+            return $this->render('sortie/index.html.twig', [
+                'sorties'=>$maListe,
+                'form'=>$recherche->createView(),
+            ]);
+        }
+
         $liste = $sortieRepository->findAll();
         foreach ($liste as $sortie) {
             $this->maj($sortie);
@@ -30,6 +65,7 @@ class SortieController extends Controller
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $liste,
+            'form'=>$recherche->createView(),
         ]);
     }
 
@@ -39,6 +75,7 @@ class SortieController extends Controller
     public function new(Request $request, EtatRepository $repository): Response
     {
         $sortie = new Sortie();
+        $sortie->setSite($this->getUser()->getSite());
         $sortie->setOrganisateur($this->getUser());
 
         $etat = $repository->findOneBy(['libelle'=>'Créée']);
@@ -47,18 +84,77 @@ class SortieController extends Controller
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
+        $entityManager = $this->getDoctrine()->getManager();
+
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form['urlPhoto']->getData();
+
+
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imageFile->move(
+                        $this->getParameter('image_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $sortie->setUrlPhoto($newFilename);
+            }
+
             $entityManager->persist($sortie);
             $entityManager->flush();
 
             return $this->redirectToRoute('sortie_index');
         }
 
+        $lieu = new Lieu();
+        $formlieu = $this->createForm(LieuType::class, $lieu);
+        $formlieu->handleRequest($request);
+
+        if($formlieu->isSubmitted()&&$formlieu->isValid()){
+            $entityManager->persist($lieu);
+            $entityManager->flush();
+
+            return $this->render('sortie/new.html.twig', [
+                'sortie' => $sortie,
+                'form' => $form->createView(),
+                'formlieu'=>$formlieu->createView()
+            ]);
+        }
+
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
+            'formlieu'=>$formlieu->createView()
         ]);
+    }
+
+    /**
+     * @param Sortie $sortie
+     * @Route("/{id}/cancel", name="sortie_cancel", methods={"GET","POST"})
+     * @return RedirectResponse
+     */
+    public function cancel(Sortie $sortie, EtatRepository $repo, EntityManagerInterface $em){
+
+        $etat = $repo->findOneBy(['libelle'=>'Annulée']);
+
+        $sortie->setEtat($etat);
+        $em->persist($sortie);
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_index');
     }
 
     /**
@@ -115,6 +211,33 @@ class SortieController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form['urlPhoto']->getData();
+
+
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $imageFile->move(
+                        $this->getParameter('image_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $sortie->setUrlPhoto($newFilename);
+            }
+
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('sortie_index');
@@ -159,7 +282,19 @@ class SortieController extends Controller
             $etat = $repo->findOneBy(['libelle'=>'Passée']);
             $sortie->setEtat($etat);
         }
+
+
+        $interval = new \DateInterval('P30D');
+        $dateMoinsUnMois=$now->sub($interval);
+
+        if ($dateMoinsUnMois>$dateFin&&$sortie->getEtat()->getLibelle()!='Annulée'){
+            $etat = $repo->findOneBy(['libelle'=>'périmé']);
+            $sortie->setEtat($etat);
+        }
+
         $em->persist($sortie);
         $em->flush();
     }
+
+
 }

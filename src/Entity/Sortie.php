@@ -5,6 +5,7 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,7 @@ class Sortie
     /**
      * @var DateTime
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today")
      */
     private $debut;
 
@@ -37,6 +39,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today")
      */
     private $clotureInscriptions;
 
@@ -52,6 +55,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=250, nullable=true)
+
      */
     private $urlPhoto;
 
@@ -77,6 +81,13 @@ class Sortie
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
+
 
     public function __construct()
     {
@@ -206,7 +217,7 @@ class Sortie
 
     public function addInscription(Participant $inscription): self
     {
-        if (!$this->inscriptions->contains($inscription)) {
+        if ((!$this->inscriptions->contains($inscription))&&$this->inscriptions->count()<$this->getInscriptionsMax()) {
             $this->inscriptions[] = $inscription;
             $inscription->addInscription($this);
         }
@@ -235,4 +246,17 @@ class Sortie
 
         return $this;
     }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
 }

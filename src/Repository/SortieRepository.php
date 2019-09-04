@@ -19,6 +19,76 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+
+
+    public function rechercheSortie($var, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte, $etat) : array
+    {
+
+        $req = $this->createQueryBuilder('s');
+
+        // Recherche par site
+        if($site){
+            $req
+                ->andWhere('s.site = :site')
+                ->setParameter('site', $site)
+            ;
+
+        }
+
+        // Recherche par mot-clé titre/description
+        if($var){
+            $req
+                ->andWhere('s.nom like :var')
+                ->orWhere('s.description like :var')
+                ->setParameter('var','%'.$var.'%')
+                ->setMaxResults(6);
+        }
+
+        // Recherche par date
+        if($dateD && $dateF){
+            $req
+                ->andWhere('s.debut BETWEEN :min AND :max')
+                ->setParameter('min', $dateD)
+                ->setParameter('max', $dateF)
+            ;
+        }
+
+        // Check si l'utilisateur connecté est l'organisateur
+        if($orga){
+            $req
+                ->andWhere('s.organisateur = :orga')
+                ->setParameter('orga', $connecte);
+        }
+
+        // Check si la sortie est passée
+        if($passe){
+            $req
+                ->andWhere('s.etat = :etat')
+                ->setParameter('etat', $etat)
+            ;
+        }
+
+        // Check si l'utilisateur connecté est inscrit
+        if($inscr){
+            $req
+                ->andWhere(':user MEMBER OF s.inscriptions')
+                ->setParameter('user', $connecte);
+            // sortie_participant as sp on sp.sortie_id = s.sortie_id where sp.participant_id =$connecte->getId();
+        }
+
+        // Check si l'utilisateur connecté est inscrit
+        if($nonInscr){
+            $req
+                ->andWhere(':user NOT MEMBER OF s.inscriptions')
+                ->setParameter('user', $connecte);
+        }
+
+        //$req->setMaxResults(6);
+
+        return $req->getQuery()->getResult();
+    }
+
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */
