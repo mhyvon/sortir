@@ -66,7 +66,7 @@
                         </div>
                             <br>
                             <br>
-                    {% if sortie.etat.libelle!='Activité en cours' or sortie.etat.libelle!='Passée' or sortie.etat.libelle!='périmé' %}
+                    {% if sortie.etat.libelle!='Activité en cours' and sortie.etat.libelle!='Passée' and sortie.etat.libelle!='périmé' %}
                         <div class="marg">
                             <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Annuler</a>
                         </div>
@@ -80,7 +80,7 @@
 
 
                     {% else %}
-                        {% if sortie.etat.libelle != 'Passée' or sortie.etat.libelle != 'Activitée en cours' %}
+                        {% if sortie.etat.libelle != 'Passée' and sortie.etat.libelle != 'Activitée en cours' and sortie.etat.libelle != 'périmé' and sortie.etat.libelle != 'Annulée' %}
                             {% if sortie in app.user.inscriptions %}
                                 <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
                             {% else %}

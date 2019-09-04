@@ -69,7 +69,7 @@
             <div class="row">
 
                 {% for sortie in sorties %}
-                    {% if sortie.etat.libelle != 'périmé' %}
+                    {% if sortie.etat.libelle != 'périmé' and sortie.etat.libelle != 'Annulée' %}
                     <!-- Liste des sorties-->
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
@@ -80,6 +80,9 @@
                                             <p><img class=" img-fluid" src="{{ asset('build/images/' ~ sortie.urlPhoto) }}" alt="card image"></p>
                                             <h4 class="card-title">{{sortie.nom}}</h4>
                                             <p class="card-text">{{  sortie.debut ? sortie.debut|date('Y-m-d H:i:s') : ''  }}</p>
+                                            {% if sortie.etat.libelle != 'Créée' %}
+                                            <p class="red">{{ sortie.etat.libelle }}</p>
+                                                {% endif %}
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>

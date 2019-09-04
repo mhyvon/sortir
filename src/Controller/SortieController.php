@@ -152,9 +152,21 @@ class SortieController extends Controller
 
         $etat = $repo->findOneBy(['libelle'=>'Annulée']);
 
-        $sortie->setEtat($etat);
-        $em->persist($sortie);
-        $em->flush();
+        $repo = $this->getDoctrine()->getRepository(Etat::class);
+
+        $passe = $repo->findOneBy(['libelle'=>'Passée']);
+        $enCours = $repo->findOneBy(['libelle'=>'Activité en cours']);
+        $annulee = $repo->findOneBy(['libelle'=>'Annulée']);
+        $perime = $repo->findOneBy(['libelle'=>'périmé']);
+
+        if ($sortie->getEtat()!=$passe&&$sortie->getEtat()!=$enCours&&$sortie->getEtat()!=$annulee&&$sortie->getEtat()!=$perime) {
+
+            if ($sortie->getOrganisateur()->getId() == $this->getUser()->getId()) {
+                $sortie->setEtat($etat);
+                $em->persist($sortie);
+                $em->flush();
+            }
+        }
 
         return $this->redirectToRoute('sortie_index');
     }
@@ -166,10 +178,19 @@ class SortieController extends Controller
      */
     public function addParticipant(Sortie $sortie){
 
-        $sortie->addInscription($this->getUser());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($sortie);
-        $em->flush();
+        $repo = $this->getDoctrine()->getRepository(Etat::class);
+
+        $passe = $repo->findOneBy(['libelle'=>'Passée']);
+        $enCours = $repo->findOneBy(['libelle'=>'Activité en cours']);
+        $annulee = $repo->findOneBy(['libelle'=>'Annulée']);
+        $perime = $repo->findOneBy(['libelle'=>'périmé']);
+
+        if ($sortie->getEtat()!=$passe&&$sortie->getEtat()!=$enCours&&$sortie->getEtat()!=$annulee&&$sortie->getEtat()!=$perime) {
+            $sortie->addInscription($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+        }
 
         return $this->redirectToRoute('sortie_show',  [
             'id'=>$sortie->getId(),
@@ -183,10 +204,19 @@ class SortieController extends Controller
      */
     public function removeParticipant(Sortie$sortie){
 
-        $sortie->removeInscription($this->getUser());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($sortie);
-        $em->flush();
+        $repo = $this->getDoctrine()->getRepository(Etat::class);
+
+        $passe = $repo->findOneBy(['libelle'=>'Passée']);
+        $enCours = $repo->findOneBy(['libelle'=>'Activité en cours']);
+        $annulee = $repo->findOneBy(['libelle'=>'Annulée']);
+        $perime = $repo->findOneBy(['libelle'=>'périmé']);
+
+        if ($sortie->getEtat()!=$passe&&$sortie->getEtat()!=$enCours&&$sortie->getEtat()!=$annulee&&$sortie->getEtat()!=$perime) {
+            $sortie->removeInscription($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+        }
 
         return $this->redirectToRoute('sortie_show',  [
             'id'=>$sortie->getId(),
