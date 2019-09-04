@@ -59,7 +59,7 @@ $('#sortie_lieu').change(function () {
             let idVille = ville.id;
             $('#sortie_ville option[value='+idVille+']').prop('selected', true);
             // $("#sortie_ville").trigger('change');
-            
+
         }
     })
 });

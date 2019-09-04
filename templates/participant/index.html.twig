@@ -24,11 +24,19 @@
                 <td>{{ participant.prenom }}</td>
                 <td>{{ participant.telephone }}</td>
                 <td>
+                <div class="form-inline">
                     {% if participant.actif %}
-                        <a class="btn btn-primary btn-danger" href="{{ path('participant_desactiver', {'id': participant.id}) }}">Désactiver</a>
+                        <span><a class="btn btn-primary btn-danger" href="{{ path('participant_desactiver', {'id': participant.id}) }}">Désactiver</a></span>
                     {% else %}
-                        <a class="btn btn-primary btn-success" href="{{ path('participant_activer', {'id': participant.id}) }}">Activer</a>
+                        <span><a class="btn btn-primary btn-success" href="{{ path('participant_activer', {'id': participant.id}) }}">Activer</a></span>
                     {% endif %}
+                        <form method="post" action="{{ path('participant_delete', {'id': participant.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.id) }}">
+                            <button class="btn btn-danger">X</button>
+                        </form>
+                </div>
+
                 </td>
             </tr>
         {% else %}
