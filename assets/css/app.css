@@ -293,5 +293,11 @@ height: 300px;
 }
 
 .marg{
-    margin: auto;
+    margin: 10px;
+}
+
+.place{
+    position: absolute;
+    top :3px;
+    right :3px;
 }
