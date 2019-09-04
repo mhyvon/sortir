@@ -11,38 +11,73 @@
         <div class="row">
         <img src="{{ asset('build/images/' ~ sortie.urlPhoto) }}" alt="card image" class="imageProfil">
 
-            <div class="col-md-6 padd" >
-
+            <div class="col-md-6" >
+                <div class="paddbot" >
                     Ville organisatrice :   {{sortie.lieu.ville}}
+                </div>
 
+
+                    <div class="paddbot" >
                     Lieu :   {{sortie.lieu}}
+                    </div>
 
 
+                        <div class="paddbot" >
                     Rue :   {{sortie.lieu.rue}}
+                        </div>
 
-
+                            <div class="paddbot" >
                     Code Postal :   {{sortie.lieu.ville.codePostal}}
+                            </div>
 
 
+                                <div class="paddbot" >
                     Latitude :   {{sortie.lieu.latitude}}
+                                </div>
 
 
+                <div class="paddbot" >
                     Longitude :   {{sortie.lieu.longitude}}
+                </div>
 
-                <br>
 
+<br>
                     <strong>Description : </strong>
                     <br>
                     <br>
                     {{sortie.description }}
+                <br>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="marg">
+                        <a href="{{ path('sortie_index') }}" type="button" class="btn btn-primary">Revenir à la liste</a>
+                        &nbsp
+                    </div>
 
-                <a href="{{ path('sortie_index') }}" type="button" class="btn btn-">Revenir à la liste</a>
+                    <br>
 
-                {% if app.user %}
-                    {% if app.user == sortie.organisateur %}
-                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" type="button" class="btn btn-">Modifier</a>
-                        <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-">Annuler</a>
+                    {% if app.user %}
+                        {% if app.user == sortie.organisateur %}
+                        <div class="marg">
+                            <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Modifier</a>
+                            &nbsp
+
+                        </div>
+                            <br>
+                            <br>
+                        <div class="marg">
+                            <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Annuler</a>
+                            &nbsp
+                        </div>
+                </div>
+                        <div>
+                            <br>
+
                         {{ include('sortie/_delete_form.html.twig') }}
+                    </div>
+
+
                     {% else %}
                         {% if sortie.etat.libelle != 'Passée' or sortie.etat.libelle != 'Activitée en cours' %}
                             {% if sortie in app.user.inscriptions %}
@@ -53,20 +88,21 @@
                             {% endif %}
                     {% endif %}
                 {% endif %}
+            </div>
 
             </div>
             <div class="col-md-3">
 
-                <div style= "margin-bottom: 10px" >
+                <div class="paddbot" >
                     Date de la sortie :   {{sortie.debut ? sortie.debut|date('Y-m-d à H:i:s') : ''}}
                 </div>
-                <div  style= "margin-bottom: 10px">
+                <div  class="paddbot">
                     Date limite d'inscription:   {{sortie.clotureInscriptions ? sortie.clotureInscriptions|date('Y-m-d à H:i:s') : ''}}
                 </div>
-                <div  style= "margin-bottom: 10px">
+                <div class="paddbot">
                     Nombre de places :   {{sortie.inscriptionsMax}}
                 </div>
-                <div  style= "margin-bottom: 10px">
+                <div  class="paddbot">
                     Durée :   {{sortie.duree}} minutes
                 </div>
                 <br>
