@@ -19,7 +19,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
      */
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
-        $content='Accès refusé';
+        $content='<img src="https://i1.wp.com/archersduroyrene.fr/wp-content/uploads/2015/10/acces-refuse-e1446194297940.jpg" alt="Accès refusé">';
         return new Response($content, 403);
     }
 }
