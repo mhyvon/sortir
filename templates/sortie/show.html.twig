@@ -66,18 +66,16 @@
                         </div>
                             <br>
                             <br>
+                    {% if sortie.etat.libelle!='Activité en cours' or sortie.etat.libelle!='Passée' or sortie.etat.libelle!='périmé' %}
                         <div class="marg">
                             <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Annuler</a>
-
                         </div>
+                    {% endif %}
                 </div>
                         <div>
                             <br>
 
-
                         {{ include('sortie/_delete_form.html.twig') }}
-
-
                     </div>
 
 
