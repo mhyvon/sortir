@@ -29,6 +29,8 @@ class ResearchType extends AbstractType
             ->add('siteR', EntityType::class, [
                 'class'=>Site::class,
                 'label'=>'Site',
+                'placeholder' => 'Sélectionnez un site',
+                'required'=>false
             ])
             ->add('dateD', DateType::class,[
                 'required'=>false,
