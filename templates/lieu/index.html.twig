@@ -8,25 +8,23 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Rue</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>actions</th>
+                <th>Gérer</th>
             </tr>
         </thead>
         <tbody>
         {% for lieu in lieus %}
             <tr>
-                <td>{{ lieu.id }}</td>
                 <td>{{ lieu.nom }}</td>
                 <td>{{ lieu.rue }}</td>
                 <td>{{ lieu.latitude }}</td>
                 <td>{{ lieu.longitude }}</td>
                 <td>
-                    <a href="{{ path('lieu_show', {'id': lieu.id}) }}">show</a>
-                    <a href="{{ path('lieu_edit', {'id': lieu.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('lieu_show', {'id': lieu.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('lieu_edit', {'id': lieu.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}

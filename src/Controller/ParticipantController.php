@@ -10,6 +10,7 @@ use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,6 +26,20 @@ class ParticipantController extends Controller
         return $this->render('participant/index.html.twig', [
             'participants'=>$repository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}", name="participant_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Participant $participant): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$participant->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($participant);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('participant_index');
     }
 
     /**

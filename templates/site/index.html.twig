@@ -8,19 +8,17 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
-                <th>actions</th>
+                <th>Gérer</th>
             </tr>
         </thead>
         <tbody>
         {% for site in sites %}
             <tr>
-                <td>{{ site.id }}</td>
                 <td>{{ site.nom }}</td>
                 <td>
-                    <a href="{{ path('site_show', {'id': site.id}) }}">show</a>
-                    <a href="{{ path('site_edit', {'id': site.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('site_show', {'id': site.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('site_edit', {'id': site.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}

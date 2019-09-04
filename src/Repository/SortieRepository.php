@@ -32,7 +32,6 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('s.site = :site')
                 ->setParameter('site', $site)
             ;
-
         }
 
         // Recherche par mot-clé titre/description
