@@ -4,8 +4,6 @@
 
 {% block main %}
 
-
-
     <h5 class="section-title h1 titreShow" >{{sortie.nom}}</h5>
 
 
@@ -50,7 +48,7 @@
                             {% if sortie in app.user.inscriptions %}
                                 <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
                             {% else %}
-                                <a id="btnInscrSortie" href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success {% if sortie.inscriptionsMax==sortie.inscriptions|length %} disabled{% endif %}">s'inscrire</a>
+                                <span {% if sortie.inscriptionsMax==sortie.inscriptions|length %} data-toggle="tooltip" title="Il n'y a plus de places pour cette sortie !" data-placement="right"{% endif %}><a id="btnInscrSortie" href="{{ path('sortie_register', {'id': sortie.id}) }}" type="button" class="btn btn-success {% if sortie.inscriptionsMax==sortie.inscriptions|length %} disabled {% endif %}">s'inscrire</a></span>
                             {% endif %}
                             {% endif %}
                     {% endif %}
