@@ -67,6 +67,8 @@ class Participant extends FosUser
     {
         parent::__construct();
         $this->inscriptions = new ArrayCollection();
+        $this->roles=['ROLE_USER'];
+        $this->setActif(true);
     }
 
 
