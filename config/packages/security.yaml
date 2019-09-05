@@ -16,11 +16,12 @@ security:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: sortie_index
+                check_path: participant_check
 
             access_denied_handler: App\Security\AccessDeniedHandler
             logout:
                 path: participant_logout
-                target: participant_login
+                target: sortie_index
             anonymous:    true
 
             # activate different ways to authenticate
