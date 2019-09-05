@@ -37,9 +37,6 @@ class SortieController extends Controller
 
 
         if (!$this->getUser()->getActif()) {
-            $this->addFlash('error', 'Votre compte a été désactivé. Veuillez contacter un administrateur.');
-            $request->getSession()->set('message', 'Votre compte a été désactivé. Veuillez contacter un administrateur.');
-
             return $this->redirectToRoute('participant_logout');
         }
 
