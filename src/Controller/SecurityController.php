@@ -7,6 +7,7 @@ use App\Entity\Participant;
 use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -81,7 +82,6 @@ class SecurityController extends BaseController
     public function logoutAction()
     {
         return $this->redirectToRoute('sortie_index');
-        //return new Response();
     }
 
     /**

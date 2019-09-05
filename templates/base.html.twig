@@ -96,6 +96,8 @@
             {% endfor %}
         {% endfor %}
 
+        <p>{{ app.session.get('message') }}</p>
+
 
         {% block main %}{% endblock %}
         {% block javascripts %}{% endblock %}

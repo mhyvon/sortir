@@ -21,7 +21,7 @@ security:
             access_denied_handler: App\Security\AccessDeniedHandler
             logout:
                 path: participant_logout
-                target: sortie_index
+                target: participant_login
             anonymous:    true
 
             # activate different ways to authenticate
