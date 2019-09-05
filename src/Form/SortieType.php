@@ -56,7 +56,7 @@ class SortieType extends AbstractType
                 'class'=>Lieu::class,
                 'placeholder'=>'Choisissez un lieu',
             ])
-            ->add('submit', SubmitType::class)
+            ->add('Valider', SubmitType::class)
         ;
     }
 

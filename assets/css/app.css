@@ -236,6 +236,9 @@ section .section-title {
 
 }
 
+.card {
+    border-radius: 20px;
+}
 
 /*fin de pour les cartes */
 
@@ -335,4 +338,3 @@ height: 300px;
     margin-right: 80px;
 
 }
-
