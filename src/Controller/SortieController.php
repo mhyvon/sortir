@@ -36,6 +36,15 @@ class SortieController extends Controller
         //$this->getUser()->addRole('ROLE_ADMIN');
 
 
+        if (!$this->getUser()->getActif()) {
+            $this->addFlash('error', 'Votre compte a été désactivé. Veuillez contacter un administrateur.');
+            $request->getSession()->set('message', 'Votre compte a été désactivé. Veuillez contacter un administrateur.');
+
+            return $this->redirectToRoute('participant_logout');
+        }
+
+
+
         if ($recherche->isSubmitted()&&$recherche->isValid()) {
 
             $mot = $recherche->get('motR')->getData();
@@ -118,6 +127,7 @@ class SortieController extends Controller
             $entityManager->persist($sortie);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre sortie a bien été créée !');
             return $this->redirectToRoute('sortie_index');
         }
 
