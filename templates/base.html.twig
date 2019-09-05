@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         {{ encore_entry_link_tags('app') }}
@@ -18,7 +19,7 @@
 
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{{ path('sortie_index') }}">Sortir.com</a>
+            <a class="navbar-brand" href="{{ path('sortie_index') }}"> <img class=" img-fluid" src="{{ asset('build/images/logo.png') }}" >Sortir.com</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -59,8 +60,28 @@
                             <a class="nav-link" href="{{ path('sortie_index') }}">Sorties </a>
                         </li>
                     <li class="nav-item place">
-                        <a class="nav-link" href="{{ path('participant_logout') }}">Deconnexion</a>
+                        {% if app.user.photo %}
+
+                        <div class="blanco w3-dropdown-hover">
+                        <a class="navbar-brand " href="{{ path('participant_edit') }}"> <img class=" img-fluid" src="{{ asset('build/images/' ~ app.user.photo) }}" ></a>
+                            <div class="w3-dropdown-content w3-bar-block w3-border">
+                                <a class="w3-bar-item w3-button" href="{{ path('participant_edit') }}">Mon Profil</a>
+                                <a class="w3-bar-item w3-button" href="{{ path('participant_logout') }}">Deconnexion</a>
+                            </div>
+                        </div>
+
+
+
+                        {% endif %}
                     </li>
+
+
+                    {% if not app.user.photo %}
+                        <li class="nav-item ">
+                        <a class="nav-link place" href="{{ path('participant_logout') }}">Deconnexion</a>
+                    </li>
+                    {% endif %}
+
                     {% endif %}
                 </ul>
             </div>
