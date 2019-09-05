@@ -85,6 +85,19 @@ class ParticipantController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/show/{id}", name="participant_show_only", methods={"GET","POST"})
+     * @param Participant $participant
+     * @return Response
+     */
+    public function showParticipant(Participant $participant): Response
+    {
+
+        return $this->render('participant/show2.html.twig', [
+            'participant' => $participant,
+        ]);
+    }
+
 
 
 

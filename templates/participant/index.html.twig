@@ -30,6 +30,7 @@
                     {% else %}
                         <span><a class="btn btn-primary btn-success" href="{{ path('participant_activer', {'id': participant.id}) }}">Activer</a></span>
                     {% endif %}
+                    <span><a class="btn btn-primary btn-success" href="{{ path('participant_show_only', {'id': participant.id}) }}">Voir le profil</a></span>
                         <form method="post" action="{{ path('participant_delete', {'id': participant.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.id) }}">
