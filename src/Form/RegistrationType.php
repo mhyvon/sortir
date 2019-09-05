@@ -22,7 +22,7 @@ class RegistrationType extends AbstractType
             ->add('site', EntityType::class, [
                 'class'=>Site::class,
         ])
-            ->add('submit', SubmitType::class)
+            ->add('Valider', SubmitType::class)
         ;
     }
 

@@ -364,5 +364,4 @@ class SortieController extends Controller
 
     }
 
-
 }

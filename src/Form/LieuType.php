@@ -19,7 +19,7 @@ class LieuType extends AbstractType
             ->add('latitude')
             ->add('longitude')
             ->add('ville')
-            ->add('submit', SubmitType::class)
+            ->add('Valider', SubmitType::class)
         ;
     }
 

@@ -23,11 +23,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun site trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('site_new') }}">Create new</a>
+    <a href="{{ path('site_new') }}" class="btn btn-primary" >Créer</a>
 {% endblock %}
