@@ -58,7 +58,7 @@ $('#sortie_lieu').change(function () {
             let ville = JSON.parse(json);
             let idVille = ville.id;
             $('#sortie_ville option[value='+idVille+']').prop('selected', true);
-            // $("#sortie_ville").trigger('change');
+            //$("#sortie_ville").trigger('change');
 
         }
     })
