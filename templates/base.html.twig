@@ -77,9 +77,13 @@
 
 
                     {% if not app.user.photo %}
-                        <li class="nav-item ">
-                        <a class="nav-link place" href="{{ path('participant_logout') }}">Deconnexion</a>
-                    </li>
+                        <div class="blanco w3-dropdown-hover place">
+                            <a class="navbar-brand " href="{{ path('participant_edit') }}"> <img class=" img-fluid" src="{{ asset('build/images/profl2-5d70bbae43a8c.png') }}" ></a>
+                            <div class="w3-dropdown-content w3-bar-block w3-border">
+                                <a class="w3-bar-item w3-button" href="{{ path('participant_edit') }}">Mon Profil</a>
+                                <a class="w3-bar-item w3-button" href="{{ path('participant_logout') }}">Deconnexion</a>
+                            </div>
+                        </div>
                     {% endif %}
 
                     {% endif %}
