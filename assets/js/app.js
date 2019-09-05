@@ -77,3 +77,4 @@ $('#nouveauLieu').submit(function(event) {
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+
