@@ -303,6 +303,8 @@ class SortieController extends Controller
         $repo = $this->getDoctrine()->getRepository(Etat::class);
 
         $dateFin = new \DateTime($sortie->getDebut()->format('Y-m-d H:i:s'));
+        $dateDebut = new \DateTime($sortie->getDebut()->format('Y-m-d H:i:s'));
+
 
         $dateFin->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
 
@@ -314,6 +316,11 @@ class SortieController extends Controller
             $etat = $repo->findOneBy(['libelle'=>'Passée']);
             $sortie->setEtat($etat);
         }
+        if ($now<$dateDebut&&$sortie->getEtat()->getLibelle()!='Annulée'){
+            $etat = $repo->findOneBy(['libelle'=>'Créée']);
+            $sortie->setEtat($etat);
+        }
+
 
 
         $interval = new \DateInterval('P30D');
@@ -326,6 +333,35 @@ class SortieController extends Controller
 
         $em->persist($sortie);
         $em->flush();
+    }
+
+
+
+    /**
+     * @Route("/fb/blabla", name="sortie_facebook", methods={"GET", "POST"})
+     */
+    public function onBouge(){
+
+        return $this->render('gif/facebook.html.twig');
+
+    }
+
+    /**
+     * @Route("/twitter/blabla", name="sortie_twitter", methods={"GET", "POST"})
+     */
+    public function onBouge2(){
+
+        return $this->render('gif/twitter.html.twig');
+
+    }
+
+    /**
+     * @Route("/twitter/blablalalalalalala", name="sortie_linkedin", methods={"GET", "POST"})
+     */
+    public function onBouge3(){
+
+        return $this->render('gif/linkedin.html.twig');
+
     }
 
 
