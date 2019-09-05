@@ -92,4 +92,18 @@ $('#nouveauLieu').submit(function(event) {
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+//
+// $('#research_motR').keyup(function(e){
+//     $.ajax({
+//         url: "/sortie/recherchAjax",
+//         type: "POST",
+//         data: { mot: $('#research_motR').val() },
+//         success: function (json) {
+//             let liste = JSON.parse(json);
+//             for (let i = 0; i<liste.length; i++){
+//                 console.log(liste[i].nom);
+//             }
+//         }
+//     })
+// });
 

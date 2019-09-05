@@ -20,17 +20,17 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 // c'était un essai pour de l'ajax, éventuellement réutilisable
-//    public function onCherche($var) : array
-//    {
-//        $req = $this->createQueryBuilder('s');
-//        $req
-//            ->andWhere('s.nom like :var')
-//            ->orWhere('s.description like :var')
-//            ->setParameter('var','%'.$var.'%')
-//            ->setMaxResults(6);
-//
-//        return $req->getQuery()->getResult();
-//    }
+    public function onCherche($var) : array
+    {
+        $req = $this->createQueryBuilder('s');
+        $req
+            ->andWhere('s.nom like :var')
+            ->orWhere('s.description like :var')
+            ->setParameter('var','%'.$var.'%')
+            ->setMaxResults(6);
+
+        return $req->getQuery()->getResult();
+    }
 
     public function rechercheSortie($var, $site, $dateD, $dateF, $orga, $inscr, $nonInscr, $passe, $connecte, $etat) : array
     {
