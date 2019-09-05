@@ -5,7 +5,9 @@ main {
     padding: 50px;
 }
 
-
+.red {
+    color: red;
+}
 
 
 /* footer */
@@ -234,6 +236,9 @@ section .section-title {
 
 }
 
+.card {
+    border-radius: 20px;
+}
 
 /*fin de pour les cartes */
 
@@ -293,5 +298,47 @@ height: 300px;
 }
 
 .marg{
+    margin: 10px;
+}
+
+.place{
+    position: absolute;
+    top :3px;
+    right :3px;
+}
+
+.login {
+    text-align: center;
     margin: auto;
+
+
+}
+
+.label2 {
+    width: 110px;
+    text-align: left;
+}
+
+#remember_me {
+    width: 200px;
+
+}
+
+.testt{
+    background-color: #f6f9fb;
+    width: 400px;
+    margin: auto;
+    border-radius:90px;
+
+
+}
+
+.blanco{
+    background-color: #f6f9fb !important;
+    margin-right: 80px;
+
+}
+
+.font {
+    font-family: times;
 }

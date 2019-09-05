@@ -52,34 +52,37 @@
                 <div class="row">
                     <div class="marg">
                         <a href="{{ path('sortie_index') }}" type="button" class="btn btn-primary">Revenir à la liste</a>
-                        &nbsp
+
                     </div>
 
                     <br>
 
                     {% if app.user %}
-                        {% if app.user == sortie.organisateur %}
-                        <div class="marg">
-                            <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Modifier</a>
-                            &nbsp
-
-                        </div>
-                            <br>
-                            <br>
+                        {% if 'ROLE_ADMIN' in app.user.roles or app.user == sortie.organisateur %}
+                    {% if sortie.etat.libelle!='Activité en cours' and sortie.etat.libelle!='Passée' and sortie.etat.libelle!='périmé' %}
                         <div class="marg">
                             <a href="{{ path('sortie_cancel', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Annuler</a>
-                            &nbsp
                         </div>
-                </div>
+                    {% endif %}
+                            {% if app.user == sortie.organisateur %}
+                            <div class="marg">
+                                <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" type="button" class="btn btn-primary">Modifier</a>
+
+
+                            </div>
                         <div>
                             <br>
 
-                        {{ include('sortie/_delete_form.html.twig') }}
-                    </div>
+                            {{ include('sortie/_delete_form.html.twig') }}
+                        </div>
+                                <br>
+                                <br>
+                </div>
+                        {% endif %}
 
 
                     {% else %}
-                        {% if sortie.etat.libelle != 'Passée' or sortie.etat.libelle != 'Activitée en cours' %}
+                        {% if sortie.etat.libelle != 'Passée' and sortie.etat.libelle != 'Activitée en cours' and sortie.etat.libelle != 'périmé' and sortie.etat.libelle != 'Annulée' %}
                             {% if sortie in app.user.inscriptions %}
                                 <a href="{{ path('sortie_unregister', {'id': sortie.id}) }}" type="button" class="btn btn-danger btn-sm">se désinscrire</a>
                             {% else %}

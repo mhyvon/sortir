@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/sortie")
@@ -33,6 +36,12 @@ class SortieController extends Controller
         $recherche=$this->createForm(ResearchType::class);
         $recherche->handleRequest($request);
 
+        //$this->getUser()->addRole('ROLE_ADMIN');
+
+
+        if (!$this->getUser()->getActif()) {
+            return $this->redirectToRoute('participant_logout');
+        }
 
         if ($recherche->isSubmitted()&&$recherche->isValid()) {
 
@@ -116,6 +125,7 @@ class SortieController extends Controller
             $entityManager->persist($sortie);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre sortie a bien été créée !');
             return $this->redirectToRoute('sortie_index');
         }
 
@@ -150,9 +160,21 @@ class SortieController extends Controller
 
         $etat = $repo->findOneBy(['libelle'=>'Annulée']);
 
-        $sortie->setEtat($etat);
-        $em->persist($sortie);
-        $em->flush();
+        $repo = $this->getDoctrine()->getRepository(Etat::class);
+
+        $passe = $repo->findOneBy(['libelle'=>'Passée']);
+        $enCours = $repo->findOneBy(['libelle'=>'Activité en cours']);
+        $annulee = $repo->findOneBy(['libelle'=>'Annulée']);
+        $perime = $repo->findOneBy(['libelle'=>'périmé']);
+
+        if ($sortie->getEtat()!=$passe&&$sortie->getEtat()!=$enCours&&$sortie->getEtat()!=$annulee&&$sortie->getEtat()!=$perime) {
+
+            if ($sortie->getOrganisateur()->getId() == $this->getUser()->getId()) {
+                $sortie->setEtat($etat);
+                $em->persist($sortie);
+                $em->flush();
+            }
+        }
 
         return $this->redirectToRoute('sortie_index');
     }
@@ -164,10 +186,19 @@ class SortieController extends Controller
      */
     public function addParticipant(Sortie $sortie){
 
-        $sortie->addInscription($this->getUser());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($sortie);
-        $em->flush();
+        $repo = $this->getDoctrine()->getRepository(Etat::class);
+
+        $passe = $repo->findOneBy(['libelle'=>'Passée']);
+        $enCours = $repo->findOneBy(['libelle'=>'Activité en cours']);
+        $annulee = $repo->findOneBy(['libelle'=>'Annulée']);
+        $perime = $repo->findOneBy(['libelle'=>'périmé']);
+
+        if ($sortie->getEtat()!=$passe&&$sortie->getEtat()!=$enCours&&$sortie->getEtat()!=$annulee&&$sortie->getEtat()!=$perime) {
+            $sortie->addInscription($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+        }
 
         return $this->redirectToRoute('sortie_show',  [
             'id'=>$sortie->getId(),
@@ -181,10 +212,19 @@ class SortieController extends Controller
      */
     public function removeParticipant(Sortie$sortie){
 
-        $sortie->removeInscription($this->getUser());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($sortie);
-        $em->flush();
+        $repo = $this->getDoctrine()->getRepository(Etat::class);
+
+        $passe = $repo->findOneBy(['libelle'=>'Passée']);
+        $enCours = $repo->findOneBy(['libelle'=>'Activité en cours']);
+        $annulee = $repo->findOneBy(['libelle'=>'Annulée']);
+        $perime = $repo->findOneBy(['libelle'=>'périmé']);
+
+        if ($sortie->getEtat()!=$passe&&$sortie->getEtat()!=$enCours&&$sortie->getEtat()!=$annulee&&$sortie->getEtat()!=$perime) {
+            $sortie->removeInscription($this->getUser());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+        }
 
         return $this->redirectToRoute('sortie_show',  [
             'id'=>$sortie->getId(),
@@ -271,6 +311,8 @@ class SortieController extends Controller
         $repo = $this->getDoctrine()->getRepository(Etat::class);
 
         $dateFin = new \DateTime($sortie->getDebut()->format('Y-m-d H:i:s'));
+        $dateDebut = new \DateTime($sortie->getDebut()->format('Y-m-d H:i:s'));
+
 
         $dateFin->add(new \DateInterval('PT' . $sortie->getDuree() . 'M'));
 
@@ -282,6 +324,11 @@ class SortieController extends Controller
             $etat = $repo->findOneBy(['libelle'=>'Passée']);
             $sortie->setEtat($etat);
         }
+        if ($now<$dateDebut&&$sortie->getEtat()->getLibelle()!='Annulée'){
+            $etat = $repo->findOneBy(['libelle'=>'Créée']);
+            $sortie->setEtat($etat);
+        }
+
 
 
         $interval = new \DateInterval('P30D');
@@ -296,5 +343,55 @@ class SortieController extends Controller
         $em->flush();
     }
 
+//    /**
+//     * @Route("/recherchAjax", name="sortie_ajax", methods={"GET","POST"})
+//     * @param Request $request
+//     * @param SortieRepository $repository
+//     * @return Response
+//     */
+//    public function rechercheAjax(Request $request, SortieRepository $repository){
+//
+//        $encoders = [new JsonEncoder()];
+//        $normalizers = [new ObjectNormalizer()];
+//
+//        $serializer = new Serializer($normalizers, $encoders);
+//
+//        $mot = $request->get('mot');
+//
+//        $liste=$repository->onCherche($mot);
+//
+//        $json = json_encode($serializer->serialize($liste, 'json'));
+//
+//        return new Response($json);
+//    }
+
+
+
+    /**
+     * @Route("/fb/blabla", name="sortie_facebook", methods={"GET", "POST"})
+     */
+    public function onBouge(){
+
+        return $this->render('gif/facebook.html.twig');
+
+    }
+
+    /**
+     * @Route("/twitter/blabla", name="sortie_twitter", methods={"GET", "POST"})
+     */
+    public function onBouge2(){
+
+        return $this->render('gif/twitter.html.twig');
+
+    }
+
+    /**
+     * @Route("/linkedin/blablalalalalalala", name="sortie_linkedin", methods={"GET", "POST"})
+     */
+    public function onBouge3(){
+
+        return $this->render('gif/linkedin.html.twig');
+
+    }
 
 }

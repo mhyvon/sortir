@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\Ville;
 use App\Form\VilleType;
 use App\Repository\LieuRepository;
+use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/ville")
@@ -24,6 +28,34 @@ class VilleController extends Controller
         return $this->render('ville/index.html.twig', [
             'villes' => $villeRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/ajaxAction", name="ville_ajaxAction", methods={"GET","POST"})
+     * @param Request $request
+     * @param LieuRepository $lieuRepository
+     * @param VilleRepository $villeRepository
+     * @return Response
+     */
+    public function ajaxAction(Request $request, LieuRepository $lieuRepository, VilleRepository $villeRepository){
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $lieuId = $request->get('lieuid');
+
+        $lieu=$lieuRepository->find($lieuId);
+
+        $villeId = $lieu->getVille()->getId();
+
+        $ville = $villeRepository->findOneBy(['id'=>$villeId]);
+
+
+        $json = json_encode($serializer->serialize($ville,'json'));
+
+        return new Response($json);
     }
 
     /**

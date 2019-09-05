@@ -32,7 +32,7 @@ class ProfileFormType extends AbstractType
                     'mimeTypesMessage' => 'Format invalide',
                 ])
             ], ))
-            ->add('submit', SubmitType::class)
+            ->add('Valider', SubmitType::class)
         ;
     }
 

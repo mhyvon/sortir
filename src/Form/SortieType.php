@@ -46,6 +46,7 @@ class SortieType extends AbstractType
             ->add('ville', EntityType::class, [
                 'class'=>Ville::class,
                 'mapped'=>false,
+                'placeholder'=>'Choisissez une ville',
                 'attr'=>[
                     'class'=>'listeVille',
                 ],
@@ -53,8 +54,11 @@ class SortieType extends AbstractType
             ])
             ->add('lieu', EntityType::class, [
                 'class'=>Lieu::class,
+                'placeholder'=>'Choisissez un lieu',
             ])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label'=>'Valider'
+            ])
         ;
     }
 
