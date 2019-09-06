@@ -169,7 +169,7 @@ class SortieController extends Controller
 
         if ($sortie->getEtat()!=$passe&&$sortie->getEtat()!=$enCours&&$sortie->getEtat()!=$annulee&&$sortie->getEtat()!=$perime) {
 
-            if ($sortie->getOrganisateur()->getId() == $this->getUser()->getId()) {
+            if ($sortie->getOrganisateur()->getId() == $this->getUser()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
                 $sortie->setEtat($etat);
                 $em->persist($sortie);
                 $em->flush();
