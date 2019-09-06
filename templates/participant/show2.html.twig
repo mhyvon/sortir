@@ -9,6 +9,9 @@
         {% if participant.photo %}
             <img src="{{ asset('build/images/' ~ participant.photo) }}" alt="photo de profil" class="tofDeProfil">
         {% endif %}
+        {% if not participant.photo %}
+            <img src="{{ asset('build/images/imgdft.png') }}" alt="photo de profil" class="tofDeProfil">
+        {% endif %}
 
     <div class="col-md-6">
 
