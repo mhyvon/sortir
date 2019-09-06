@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/sortie")
@@ -39,8 +42,6 @@ class SortieController extends Controller
         if (!$this->getUser()->getActif()) {
             return $this->redirectToRoute('participant_logout');
         }
-
-
 
         if ($recherche->isSubmitted()&&$recherche->isValid()) {
 
@@ -342,6 +343,28 @@ class SortieController extends Controller
         $em->flush();
     }
 
+//    /**
+//     * @Route("/recherchAjax", name="sortie_ajax", methods={"GET","POST"})
+//     * @param Request $request
+//     * @param SortieRepository $repository
+//     * @return Response
+//     */
+//    public function rechercheAjax(Request $request, SortieRepository $repository){
+//
+//        $encoders = [new JsonEncoder()];
+//        $normalizers = [new ObjectNormalizer()];
+//
+//        $serializer = new Serializer($normalizers, $encoders);
+//
+//        $mot = $request->get('mot');
+//
+//        $liste=$repository->onCherche($mot);
+//
+//        $json = json_encode($serializer->serialize($liste, 'json'));
+//
+//        return new Response($json);
+//    }
+
 
 
     /**
@@ -363,7 +386,7 @@ class SortieController extends Controller
     }
 
     /**
-     * @Route("/twitter/blablalalalalalala", name="sortie_linkedin", methods={"GET", "POST"})
+     * @Route("/linkedin/blablalalalalalala", name="sortie_linkedin", methods={"GET", "POST"})
      */
     public function onBouge3(){
 
